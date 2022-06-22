@@ -1,6 +1,6 @@
 package files
 
-func filesToString() (files string) {
-
+func (file File) FilesToString(packageName string) (files string) {
+	
 	return files
 }

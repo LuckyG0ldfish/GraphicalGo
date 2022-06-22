@@ -1,6 +1,6 @@
 package folders
 
-func foldersToString() (folders string) {
-
+func (folder Folder) FoldersToString() (folders string) {
+	
 	return folders
 }

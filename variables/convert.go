@@ -1,6 +1,6 @@
 package variables
 
-func variablesToString() (variables string) {
-
-	return variables
+func (vari Variable) VariablesToString() (variables string) {
+	variables = vari.name + " " + vari.typ
+	return
 }
