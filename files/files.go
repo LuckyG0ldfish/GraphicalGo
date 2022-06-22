@@ -4,7 +4,7 @@ import "github.com/LuckyG0ldfish/GraphicalGo/objects"
 
 type File struct{
 	name string
-	imports []string
+	imports string
 	objects []objects.Object
 	functions []string
 }
