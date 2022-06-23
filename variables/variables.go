@@ -1,8 +1,8 @@
 package variables
 
 type Variable struct {
-	name string
-	typ  string
+	Name string
+	Typ  string
 }
 
 func CreateVariables() (variable string) {

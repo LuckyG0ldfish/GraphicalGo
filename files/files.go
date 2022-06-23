@@ -3,10 +3,10 @@ package files
 import "github.com/LuckyG0ldfish/GraphicalGo/objects"
 
 type File struct{
-	name string
-	imports string
-	objects []objects.Object
-	functions []string
+	Name string
+	Imports string
+	Objects []objects.Object
+	Functions []string
 }
 func CreateFiles() (files string) {
 

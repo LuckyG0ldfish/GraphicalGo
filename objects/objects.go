@@ -3,8 +3,8 @@ package objects
 import "github.com/LuckyG0ldfish/GraphicalGo/variables"
 
 type Object struct {
-	name      string
-	variables []variables.Variable
+	Name      string
+	Variables []variables.Variable
 }
 
 func CreateObject() (object string) {
