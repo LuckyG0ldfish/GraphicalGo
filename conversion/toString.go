@@ -3,10 +3,10 @@ package conversion
 import (
 	"os"
 
-	"github.com/LuckyG0ldfish/GraphicalGo/files"
-	"github.com/LuckyG0ldfish/GraphicalGo/folders"
-	"github.com/LuckyG0ldfish/GraphicalGo/objects"
-	"github.com/LuckyG0ldfish/GraphicalGo/variables"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/files"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/folders"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/objects"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/variables"
 )
 
 func VariablesToString(vari variables.Variable) (variables string) {
