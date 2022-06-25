@@ -1,6 +1,6 @@
 package folders
 
-import "github.com/LuckyG0ldfish/GraphicalGo/files"
+import "github.com/LuckyG0ldfish/GraphicalGo/elements/files"
 
 type Folder struct {
 	name string 
