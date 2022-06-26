@@ -7,11 +7,11 @@ import (
 
 	// "image/color"
 
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
-	// "fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/widget"
+	// "fyne.io/fyne/v2"
+	// "fyne.io/fyne/v2/app"
+	// // "fyne.io/fyne/v2/canvas"
+	// "fyne.io/fyne/v2/container"
+	// "fyne.io/fyne/v2/widget"
 )
 
 func main() {
@@ -23,24 +23,24 @@ func main() {
 }
 
 func createProject(name string) {
-	a := app.New()
-	w := a.NewWindow(name)
+	// a := app.New()
+	// w := a.NewWindow(name)
 	
-	hello := widget.NewLabel("Hello Fyne!")
-	// can := canvas.NewCircle(color.GrayModel.Convert(color.Black))
-	// tt := new([]fyne.Widget)
-	// define size 
-	w.Resize(fyne.NewSize(500, 400))
-	w.SetContent(container.NewVBox(
-		hello,
+	// hello := widget.NewLabel("Hello Fyne!")
+	// // can := canvas.NewCircle(color.GrayModel.Convert(color.Black))
+	// // tt := new([]fyne.Widget)
+	// // define size 
+	// w.Resize(fyne.NewSize(500, 400))
+	// w.SetContent(container.NewVBox(
+	// 	hello,
 		
-		widget.NewButton("Hi!", func() {
-			hello.Hidden = true
-			widget.NewEntry()// hello.Move(fyne.NewPos(30, 30 )) // SetText("Welcome :)")
-		}),
-	))
+	// 	widget.NewButton("Hi!", func() {
+	// 		hello.Hidden = true
+	// 		widget.NewEntry()// hello.Move(fyne.NewPos(30, 30 )) // SetText("Welcome :)")
+	// 	}),
+	// ))
 
-	w.ShowAndRun()
+	// w.ShowAndRun()
 	
 }
 
