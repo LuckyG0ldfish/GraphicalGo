@@ -1,4 +1,4 @@
-package main
+package ui
 
 import (
 	"fmt"
@@ -61,14 +61,14 @@ func onCircleButton() {
 	fmt.Println("Circle Button")
 }
 
-func loop() {
+func cloop() {
 	g.SingleWindow().Layout(
 		g.Row(CircleButton("Hello", onHello), CircleButton("World", onWorld)),
 		CircleButton("Circle Button", onCircleButton),
 	)
 }
 
-func main() {
+func cmain() {
 	wnd := g.NewMasterWindow("Custom Widget", 400, 300, g.MasterWindowFlagsNotResizable)
-	wnd.Run(loop)
+	wnd.Run(cloop)
 }
