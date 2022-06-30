@@ -1,0 +1,25 @@
+package dragable
+
+import (
+	sub "github.com/LuckyG0ldfish/GraphicalGo/subelements"
+	g "github.com/AllenDang/giu"
+)
+
+type Dragable interface {
+	GetID()
+
+	GetXLeft() int
+	GetXRight() int
+	GetYLeft() int
+	GetYRight() int
+
+	SetXLeft(int)
+	SetXRight(int)
+	SetYLeft(int)
+	SetYRight(int)
+} 
+
+func (D *Dragable) Drag() {
+	pos := g.GetCursorPos()
+}
+

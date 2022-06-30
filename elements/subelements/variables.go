@@ -1,4 +1,4 @@
-package variables
+package subelements
 
 type Variable struct {
 	Name string
