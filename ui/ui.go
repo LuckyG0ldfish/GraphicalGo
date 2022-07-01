@@ -6,7 +6,7 @@ import (
 	g "github.com/AllenDang/giu"
 )
 
-
+// This is an example from AllenDang/giu
 
 func WindowManager() {
 	items = make([]string, 100)

@@ -3,7 +3,7 @@ package conversion
 import (
 	"os"
 
-	sub "github.com/LuckyG0ldfish/GraphicalGo/subelements"
+	sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
 func VariablesToString(vari sub.Variable) (variables string) {
@@ -48,7 +48,7 @@ func FilesToString(file sub.File, packageName string, path string) {
 	}
 }
 
-func FoldersToString(folder folders.Folder) (folders string) {
+func FoldersToString(folder sub.Folder) (folders string) {
 	
 	return folders
 }

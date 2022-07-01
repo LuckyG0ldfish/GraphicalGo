@@ -7,6 +7,8 @@ import (
 	"github.com/AllenDang/imgui-go"
 )
 
+// This is an example from github.com/AllenDang/giu
+
 var (
 	dropTarget string = "Drop here"
 )

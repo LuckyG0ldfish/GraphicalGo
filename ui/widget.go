@@ -8,6 +8,8 @@ import (
 	g "github.com/AllenDang/giu"
 )
 
+// This is an example from AllenDang/giu
+
 var (
 	name                   string
 	items                  []string

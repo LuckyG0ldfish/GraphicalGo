@@ -1,8 +1,12 @@
-package dragable
+package elements
 
 import (
-	sub "github.com/LuckyG0ldfish/GraphicalGo/subelements"
+	"image"
+	"image/color"
+
+	sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 	g "github.com/AllenDang/giu"
+	"github.com/AllenDang/imgui-go"
 )
 
 type Dragable interface {
@@ -19,7 +23,20 @@ type Dragable interface {
 	SetYRight(int)
 } 
 
-func (D *Dragable) Drag() {
-	pos := g.GetCursorPos()
+func (D *Dragable) Dragable() bool{
+	pos image.Point
+	pos = g.GetCursorPos() 
+	
+	if pos.X > xLeft && pos.X < xRight && pos.Y > yLeft && pos.Y < yRight {
+		return true 
+	}
+	return false 	
 }
+
+func (D *Dragable) Drag() {
+	if a == b {
+		return f
+	} 
+}  
+
 
