@@ -5,50 +5,54 @@ type Object struct {
 	Variables []Variable
 
 	xLeft 	int 
-	xRight	int 
-	yLeft	int 
-	yRight	int
+	yTop	int 
+
+
+	xRelative int 
+	yRelative int 
 
 	id 		int
 }
 
-func CreateObject() (object string) {
-	
-	return object
+func CreateObject(name string) (Object Object) {
+	Object.xLeft = 100
+	Object.yTop = 100
+	Object.Name = name
+	return Object
 }
 
-func (ob *Object) GetXLeft() int{
+func (ob Object) GetRelativeX() int{
+	return ob.xRelative
+}
+
+func (ob Object) GetRelativeY() int{
+	return ob.yRelative
+}
+
+func (ob Object) SetRelativeX(i int) {
+	ob.xRelative = i 
+}
+
+func (ob Object) SetRelativeY(i int) {
+	ob.yRelative = i 
+}
+
+func (ob Object) GetXLeft() int{
 	return ob.xLeft
 }
 
-func (ob *Object) GetXRight() int{
-	return ob.xRight
+func (ob Object) GetYTop() int{
+	return ob.yTop
 }
 
-func (ob *Object) GetYLeft() int{
-	return ob.yLeft
-}
-
-func (ob *Object) GetYRight() int{
-	return ob.yRight
-}
-
-func (ob *Object) SetXLeft(x int) {
+func (ob Object) SetXLeft(x int) {
 	ob.xLeft = x
 }
 
-func (ob *Object) SetXRight(x int) {
-	ob.xRight = x
+func (ob Object) SetYTop(y int) {
+	ob.yTop = y
 }
 
-func (ob *Object) SetYLeft(y int) {
-	ob.yLeft = y
-}
-
-func (ob *Object) SetYRight(y int) {
-	ob.yRight = y
-}
-
-func (ob *Object) GetID() int{
+func (ob Object) GetID() int{
 	return ob.id
 }

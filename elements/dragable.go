@@ -8,15 +8,19 @@ package elements
 // "github.com/AllenDang/imgui-go"
 
 type Dragable interface {
-	GetID()
+	GetID() int
 
 	GetXLeft() int
-	GetXDist() int
 	GetYTop() int
-	GetYDist() int
+
+
+	GetRelativeX() int 
+	GetRelativeY() int
 
 	SetXLeft(int)
-	SetXDist(int)
 	SetYTop(int)
-	SetYDist(int)
+
+
+	SetRelativeX(int) 
+	SetRelativeY(int) 
 }

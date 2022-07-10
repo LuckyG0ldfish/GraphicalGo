@@ -1,54 +1,47 @@
 package ui
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+	"strconv"
+
 	g "github.com/AllenDang/giu"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// imgui "github.com/AllenDang/imgui-go"
 )
 
 var (
-	testVar g.CustomWidget
+	// testVar g.CustomWidget
+	dragInProgress bool
+	Dragable       elements.Dragable
 )
-
-
 
 func handleUI() {
 	g.SingleWindow().Layout(
 		g.Custom(func() {
 			canvas := g.GetCanvas()
-			pos := g.GetCursorScreenPos()
-			color := color.RGBA{200, 75, 75, 255}
-			// canvas.AddLine(pos, pos.Add(image.Pt(100, 100)), color, 1)
-			canvas.AddRect(pos.Add(image.Pt(110, 0)), pos.Add(image.Pt(200, 100)), color, 5, g.DrawFlagsRoundCornersAll, 1)
-			// canvas.AddRectFilled(pos.Add(image.Pt(220, 0)), pos.Add(image.Pt(320, 100)), color, 0, 0)
-			if 
-			// pos0 := pos.Add(image.Pt(0, 110))
-			// cp0 := pos.Add(image.Pt(80, 110))
-			// cp1 := pos.Add(image.Pt(50, 210))
-			// pos1 := pos.Add(image.Pt(120, 210))
-			// canvas.AddBezierCubic(pos0, cp0, cp1, pos1, color, 1, 0)
 
-			// p1 := pos.Add(image.Pt(160, 110))
-			// p2 := pos.Add(image.Pt(120, 210))
-			// p3 := pos.Add(image.Pt(210, 210))
-			// p4 := pos.Add(image.Pt(210, 150))
-			// // canvas.AddTriangle(p1, p2, p3, color, 2)
-			// canvas.AddQuad(p1, p2, p3, p4, color, 1)
+			AddObject(canvas, Dragable)
 
-			// p1 = p1.Add(image.Pt(120, 60))
-			// canvas.AddCircleFilled(p1, 50, color)
-
-			// p1 = pos.Add(image.Pt(10, 400))
-			// p2 = pos.Add(image.Pt(50, 440))
-			// p3 = pos.Add(image.Pt(200, 500))
-			// canvas.PathLineTo(p1)
-			// canvas.PathLineTo(p2)
-			// canvas.PathBezierCubicCurveTo(p2.Add(image.Pt(40, 0)), p3.Add(image.Pt(-50, 0)), p3, 0)
-			// canvas.PathStroke(color, false, 1)
-		
 		}),
 	)
+
+	if LeftPressed() && !dragInProgress {
+		fmt.Println("pressed")
+		dragInProgress = true
+		getRelativePos(Dragable)
+	}
+	if dragInProgress {
+		// fmt.Println("drag in progress")
+		updateRelativePos(Dragable)
+
+	}
+	if LeftReleased() {
+		fmt.Println("release")
+		updateRelativePos(Dragable)
+		dragInProgress = false
+	}
 }
 
 func handleClickToCanvas() {}
@@ -56,3 +49,73 @@ func handleClickToCanvas() {}
 func handleClickToOverView() {}
 
 func handleClickToObjectSelect() {}
+
+func AddObject(c *g.Canvas, drag elements.Dragable) {
+	pos := g.GetCursorScreenPos()
+
+	mix := drag.GetXLeft()
+	miy := drag.GetYTop()
+
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+100, miy+100)), color.White, 0, 5)
+	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+97, miy+120)), color.Black, 1)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, "TestObject")
+}
+
+func AdjustObjectPosition(c *g.Canvas, drag elements.Dragable) {
+	// x, y := CursorPos()
+	// mix := drag.GetXLeft()
+	// miy := drag.GetYTop()
+
+	// rx := drag.GetRelativeX()
+	// ry := drag.GetRelativeY()
+}
+
+func UpdateDragPos(D elements.Dragable) {
+	working := getRelativePos(D)
+	if !working {
+		return
+	}
+	for {
+		updateRelativePos(D)
+		if !LeftPressed() {
+			return
+		}
+	}
+}
+
+func getRelativePos(D elements.Dragable) (working bool) {
+	if !isDragable(D) {
+		return false
+	}
+	posX, posY := CursorPos()
+	relX := posX - D.GetXLeft()
+	relY := posY - D.GetYTop()
+
+	D.SetRelativeX(relX)
+	D.SetRelativeY(relY)
+	fmt.Println("rel pos updated")
+	return true
+}
+
+func updateRelativePos(D elements.Dragable) {
+	curX, curY := CursorPos()
+
+	fmt.Println("X: " + strconv.Itoa(curX))
+	fmt.Println("Y: " + strconv.Itoa(curY))
+
+	D.SetXLeft(curX - D.GetRelativeX())
+	D.SetYTop(curY - D.GetRelativeY())
+
+	fmt.Println("DX: " + strconv.Itoa(D.GetXLeft()))
+	fmt.Println("DY: " + strconv.Itoa(D.GetYTop()))
+}
+
+// fix cursor in object
+func isDragable(D elements.Dragable) bool {
+	posX, posY := CursorPos()
+
+	if posX > D.GetXLeft() && posY > D.GetYTop() { //posX < D.GetXDist()&& posY < D.GetYDist()
+		return true
+	}
+	return false
+}

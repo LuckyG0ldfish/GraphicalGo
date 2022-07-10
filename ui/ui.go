@@ -2,17 +2,19 @@ package ui
 
 import (
 	g "github.com/AllenDang/giu"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
 // This is an example from AllenDang/giu
 
 type Handler interface {
-	handleUI() 
+	handleUI()
 }
 
 func WindowManager() {
+	Dragable = subelements.CreateObject("Test")
+	dragInProgress = false
 
 	w := g.NewMasterWindow("GraphicalGo", 1000, 800, 0)
 	w.Run(handleUI)
 }
-
