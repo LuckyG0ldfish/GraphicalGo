@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	g "github.com/AllenDang/giu"
+	// "github.com/AllenDang/imgui-go"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// imgui "github.com/AllenDang/imgui-go"
 )
@@ -18,30 +19,30 @@ var (
 )
 
 func handleUI() {
-	g.SingleWindow().Layout(
-		g.Custom(func() {
-			canvas := g.GetCanvas()
-
-			AddObject(canvas, Dragable)
-
-		}),
-	)
-
 	if LeftPressed() && !dragInProgress {
 		fmt.Println("pressed")
 		dragInProgress = true
 		getRelativePos(Dragable)
 	}
 	if dragInProgress {
-		// fmt.Println("drag in progress")
+		fmt.Println("drag in progress")
 		updateRelativePos(Dragable)
-
+		g.Update()
 	}
 	if LeftReleased() {
 		fmt.Println("release")
 		updateRelativePos(Dragable)
 		dragInProgress = false
 	}
+
+	g.SingleWindow().Layout(
+		g.Custom(func() {
+			canvas := g.GetCanvas()
+
+			AddObject(canvas, Dragable)
+			
+		}),
+	)
 }
 
 func handleClickToCanvas() {}
@@ -91,6 +92,7 @@ func getRelativePos(D elements.Dragable) (working bool) {
 	relX := posX - D.GetXLeft()
 	relY := posY - D.GetYTop()
 
+	fmt.Println("relX: " + strconv.Itoa(relX) + " relY: " + strconv.Itoa(relY))
 	D.SetRelativeX(relX)
 	D.SetRelativeY(relY)
 	fmt.Println("rel pos updated")

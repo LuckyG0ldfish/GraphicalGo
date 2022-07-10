@@ -1,33 +1,35 @@
 package ui
 
 import (
-	imgui "github.com/AllenDang/imgui-go"
+	g "github.com/AllenDang/giu"
+	// "github.com/hajimehoshi/ebiten"
+	// imgui "github.com/AllenDang/imgui-go"
 )
 
-func CursorPos() (x int, y int) {
-	vec := imgui.CursorPos()
-	
-	x = int(vec.X)
-	y = int(vec.Y)
+func CursorPos() (x int, y int) {	
+	// x, y = ebiten.CursorPosition()
+	point := g.GetMousePos()
+	x = point.X
+	y = point.Y
 	return 
 }
 
 func LeftPressed() bool {
 	// O is left button according to imgui doc
-	return imgui.IsMouseClicked(0)
+	return g.IsMouseClicked(0)
 }
 
 func LeftReleased() bool {
 	// O is left button according to imgui doc
-	return imgui.IsMouseReleased(0)
+	return g.IsMouseReleased(0)
 }
 
 func RightPressed() bool {
 	// 1 is right button according to imgui doc
-	return imgui.IsMouseClicked(1)
+	return g.IsMouseClicked(1)
 }
 
 func RightReleased() bool {
 	// 1 is right button according to imgui doc
-	return imgui.IsMouseReleased(1)
+	return g.IsMouseReleased(1)
 }
