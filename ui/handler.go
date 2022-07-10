@@ -1,10 +1,10 @@
 package ui
 
 import (
-	"fmt"
+	// "fmt"
 	"image"
 	"image/color"
-	"strconv"
+	// "strconv"
 
 	g "github.com/AllenDang/giu"
 	// "github.com/AllenDang/imgui-go"
@@ -14,27 +14,14 @@ import (
 
 var (
 	// testVar g.CustomWidget
-	dragInProgress bool
+	// dragInProgress bool
 	Dragable       elements.Dragable
 )
 
 func handleUI() {
-	if LeftPressed() && !dragInProgress {
-		fmt.Println("pressed")
-		dragInProgress = true
-		getRelativePos(Dragable)
+	if LeftPressed() && isDragable(Dragable){
+		go UpdateDragPos(Dragable)
 	}
-	if dragInProgress {
-		fmt.Println("drag in progress")
-		updateRelativePos(Dragable)
-		g.Update()
-	}
-	if LeftReleased() {
-		fmt.Println("release")
-		updateRelativePos(Dragable)
-		dragInProgress = false
-	}
-
 	g.SingleWindow().Layout(
 		g.Custom(func() {
 			canvas := g.GetCanvas()
@@ -57,18 +44,12 @@ func AddObject(c *g.Canvas, drag elements.Dragable) {
 	mix := drag.GetXLeft()
 	miy := drag.GetYTop()
 
-	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+100, miy+100)), color.White, 0, 5)
-	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+97, miy+120)), color.Black, 1)
-	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, "TestObject")
-}
+	max := drag.GetXRight()
+	may := drag.GetYBot()
 
-func AdjustObjectPosition(c *g.Canvas, drag elements.Dragable) {
-	// x, y := CursorPos()
-	// mix := drag.GetXLeft()
-	// miy := drag.GetYTop()
-
-	// rx := drag.GetRelativeX()
-	// ry := drag.GetRelativeY()
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(max-3, miy+20)), color.Black, 1)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, drag.GetName())
 }
 
 func UpdateDragPos(D elements.Dragable) {
@@ -78,7 +59,7 @@ func UpdateDragPos(D elements.Dragable) {
 	}
 	for {
 		updateRelativePos(D)
-		if !LeftPressed() {
+		if LeftReleased() {
 			return
 		}
 	}
@@ -92,31 +73,34 @@ func getRelativePos(D elements.Dragable) (working bool) {
 	relX := posX - D.GetXLeft()
 	relY := posY - D.GetYTop()
 
-	fmt.Println("relX: " + strconv.Itoa(relX) + " relY: " + strconv.Itoa(relY))
+	// fmt.Println("relX: " + strconv.Itoa(relX) + " relY: " + strconv.Itoa(relY))
 	D.SetRelativeX(relX)
 	D.SetRelativeY(relY)
-	fmt.Println("rel pos updated")
+	// fmt.Println("rel pos updated")
 	return true
 }
 
 func updateRelativePos(D elements.Dragable) {
 	curX, curY := CursorPos()
 
-	fmt.Println("X: " + strconv.Itoa(curX))
-	fmt.Println("Y: " + strconv.Itoa(curY))
+	mix := D.GetXLeft()
+	miy := D.GetYTop()
+
+	max := D.GetXRight()
+	may := D.GetYBot()
 
 	D.SetXLeft(curX - D.GetRelativeX())
 	D.SetYTop(curY - D.GetRelativeY())
 
-	fmt.Println("DX: " + strconv.Itoa(D.GetXLeft()))
-	fmt.Println("DY: " + strconv.Itoa(D.GetYTop()))
+	D.SetXRight(D.GetXLeft()+ (max-mix))
+	D.SetYBot(D.GetYTop()+ (may-miy))
 }
 
 // fix cursor in object
 func isDragable(D elements.Dragable) bool {
 	posX, posY := CursorPos()
 
-	if posX > D.GetXLeft() && posY > D.GetYTop() { //posX < D.GetXDist()&& posY < D.GetYDist()
+	if posX > D.GetXLeft() && posY > D.GetYTop() && posX < D.GetXRight()&& posY < D.GetYBot(){ 
 		return true
 	}
 	return false

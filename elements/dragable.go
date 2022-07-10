@@ -9,18 +9,20 @@ package elements
 
 type Dragable interface {
 	GetID() int
+	GetName() string
 
 	GetXLeft() int
 	GetYTop() int
-
-
-	GetRelativeX() int 
-	GetRelativeY() int
-
 	SetXLeft(int)
 	SetYTop(int)
 
+	GetXRight() int
+	GetYBot() int
+	SetXRight(int)
+	SetYBot(int)
 
+	GetRelativeX() int 
+	GetRelativeY() int
 	SetRelativeX(int) 
 	SetRelativeY(int) 
 }

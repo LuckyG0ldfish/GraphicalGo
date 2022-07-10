@@ -7,6 +7,8 @@ type Object struct {
 	xLeft 	int 
 	yTop	int 
 
+	xRight 	int 
+	yBot	int 
 
 	xRelative int 
 	yRelative int 
@@ -16,12 +18,20 @@ type Object struct {
 
 func CreateObject(name string) (*Object) {
 	var object Object
+	object.Name = name
 	object.xLeft = 100
 	object.yTop = 100
-	object.Name = name
-	object.xRelative = 100
-	object.yRelative = 100 
+
+	object.xRight = 200
+	object.yBot = 200
+
+	object.xRelative = 0
+	object.yRelative = 0 
 	return &object
+}
+
+func (ob *Object) GetName() string{
+	return ob.Name
 }
 
 func (ob *Object) GetRelativeX() int{
@@ -55,6 +65,22 @@ func (ob *Object) SetXLeft(x int) {
 
 func (ob *Object) SetYTop(y int) {
 	ob.yTop = y
+}
+
+func (ob *Object) GetXRight() int{
+	return ob.xRight
+}
+
+func (ob *Object) GetYBot() int{
+	return ob.yBot
+}
+
+func (ob *Object) SetXRight(x int) {
+	ob.xRight = x
+}
+
+func (ob *Object) SetYBot(y int) {
+	ob.yBot = y
 }
 
 func (ob Object) GetID() int{
