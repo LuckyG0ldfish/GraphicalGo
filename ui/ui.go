@@ -2,7 +2,6 @@ package ui
 
 import (
 	g "github.com/AllenDang/giu"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
@@ -12,12 +11,11 @@ type Handler interface {
 	handleUI()
 }
 
-func WindowManager() {
-	Dragables = make([]elements.Dragable, 3)
-	Dragables[0] = subelements.CreateObject("Test :Object", 100 ) 
-	Dragables[1] = subelements.CreateObject("Test :Object2", 300 ) 
-	Dragables[2] = subelements.CreateObject("Test :Object3", 500 ) 
+var Project subelements.Project
 
-	w := g.NewMasterWindow("GraphicalGo", 1000, 800, 0)
-	w.Run(handleUI)
+func WindowManager() {
+	Project = *subelements.NewProject("GraphicalGo", 1000, 800)
+	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
+	go handleGeneralMousePosition()
+	w.Run(drawUI)
 }
