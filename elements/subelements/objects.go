@@ -16,13 +16,13 @@ type Object struct {
 	id 		int
 }
 
-func CreateObject(name string) (*Object) {
+func CreateObject(name string, x int) (*Object) {
 	var object Object
 	object.Name = name
-	object.xLeft = 100
+	object.xLeft = x
 	object.yTop = 100
 
-	object.xRight = 200
+	object.xRight = x+100
 	object.yBot = 200
 
 	object.xRelative = 0

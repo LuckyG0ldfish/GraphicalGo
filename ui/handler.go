@@ -2,8 +2,10 @@ package ui
 
 import (
 	// "fmt"
+	"fmt"
 	"image"
 	"image/color"
+
 	// "strconv"
 
 	g "github.com/AllenDang/giu"
@@ -15,18 +17,24 @@ import (
 var (
 	// testVar g.CustomWidget
 	// dragInProgress bool
-	Dragable       elements.Dragable
+	// Dragable       elements.Dragable
+	Dragables 		[]elements.Dragable
 )
 
 func handleUI() {
-	if LeftPressed() && isDragable(Dragable){
-		go UpdateDragPos(Dragable)
+	
+	for _, v := range Dragables {
+		if LeftPressed() && isDragable(v){
+			go UpdateDragPos(v)
+		}
 	}
 	g.SingleWindow().Layout(
 		g.Custom(func() {
-			canvas := g.GetCanvas()
-
-			AddObject(canvas, Dragable)
+			canvas := g.GetCanvas()	
+			
+			for _, v := range Dragables {
+				AddObject(canvas, v)
+			}
 			
 		}),
 	)
@@ -91,7 +99,7 @@ func updateRelativePos(D elements.Dragable) {
 
 	D.SetXLeft(curX - D.GetRelativeX())
 	D.SetYTop(curY - D.GetRelativeY())
-
+	fmt.Println("")
 	D.SetXRight(D.GetXLeft()+ (max-mix))
 	D.SetYBot(D.GetYTop()+ (may-miy))
 }
