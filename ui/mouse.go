@@ -33,3 +33,7 @@ func RightReleased() bool {
 	// 1 is right button according to imgui doc
 	return g.IsMouseReleased(1)
 }
+
+func MiddlePressed() bool {
+	return g.IsMouseClicked(2)
+}

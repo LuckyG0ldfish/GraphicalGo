@@ -46,7 +46,7 @@ func dloop() {
 	)
 }
 
-func dmain() {
+func Dmain() {
 	wnd := g.NewMasterWindow("Drag and Drop", 600, 400, g.MasterWindowFlagsNotResizable)
 	wnd.Run(dloop)
 }
