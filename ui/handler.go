@@ -1,8 +1,6 @@
 package ui
 
-import (
-	g "github.com/AllenDang/giu"
-)
+import "time"
 
 var (
 	// testVar g.CustomWidget
@@ -10,19 +8,6 @@ var (
 	// Dragable       elements.Dragable
 	// Dragables []elements.Dragable
 )
-
-func drawUI() {
-
-	g.SingleWindow().Layout(
-		g.Custom(func() {
-			canvas := g.GetCanvas()
-
-			for _, v := range Project.Can.Dragables {
-				AddObject(canvas, v)
-			}
-		}),
-	)
-}
 
 func handleGeneralMousePosition() {
 	for {
@@ -35,6 +20,7 @@ func handleGeneralMousePosition() {
 		for CursorOnCanvas() {
 			handleClickToCanvas()
 		}
+		time.Sleep(10 * time.Millisecond)
 	}
 }
 

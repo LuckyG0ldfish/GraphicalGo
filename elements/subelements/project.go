@@ -35,8 +35,8 @@ func NewProject(Name string, Width int, Height int) *Project{
 	Pro.Name = Name
 	Pro.Win = newWindow(Width, Height) 
 	Pro.Can.Dragables = make([]elements.Dragable, 3)
-	Pro.Can.XLeft = 0 
-	Pro.Can.XRight = Width
+	Pro.Can.XLeft = 100 
+	Pro.Can.XRight = Width-200
 	Pro.Can.Dragables[0] = CreateObject("Test :Object", 100)
 	Pro.Can.Dragables[1] = CreateObject("Test :Object2", 300)
 	Pro.Can.Dragables[2] = CreateObject("Test :Object3", 500)
