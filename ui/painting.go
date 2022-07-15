@@ -11,12 +11,13 @@ import (
 )
 
 func drawUI() {
-	g.SingleWindow().Layout(
-		
+	
+	g.SingleWindowWithMenuBar().Layout(
+		g.MenuBar().Layout(
+			g.Button("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) }),	
+		), 
 		g.Column(
-			g.Custom(func() {
-				g.SmallButton("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) })
-			}),	
+			
 			g.Custom(func() {
 				canvas := g.GetCanvas()
 				AddOverView(canvas)
@@ -27,28 +28,6 @@ func drawUI() {
 				}
 			}),
 		),
-		// g.Row(
-			
-		// ),
-		// g.Row(
-		// 	g.Custom(func() {
-		// 		g.Button("Drag me: 9").Build()
-		// 		if imgui.BeginDragDropSource() {
-		// 			imgui.SetDragDropPayload("DND_DEMO", 9)
-		// 			g.Label("9").Build()
-		// 			imgui.EndDragDropSource()
-		// 		}
-		// 	}),
-		// 	g.Custom(func() {
-		// 		g.Button("Drag me: 10").Build()
-		// 		if imgui.BeginDragDropSource() {
-		// 			imgui.SetDragDropPayload("DND_DEMO", 10)
-		// 			g.Label("10").Build()
-		// 			imgui.EndDragDropSource()
-		// 		}
-		// 	}),	
-			
-		// ),
 		
 	)
 }
