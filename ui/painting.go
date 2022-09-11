@@ -11,13 +11,12 @@ import (
 )
 
 func drawUI() {
-	
 	g.SingleWindowWithMenuBar().Layout(
 		g.MenuBar().Layout(
 			g.Button("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) }),	
 		), 
+	// g.SingleWindow().Layout(
 		g.Column(
-			
 			g.Custom(func() {
 				canvas := g.GetCanvas()
 				AddOverView(canvas)
