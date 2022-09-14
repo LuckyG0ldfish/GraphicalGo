@@ -36,7 +36,7 @@ func updateRelativePos(D elements.Dragable) {
 	mix := D.GetXLeft()
 	miy := D.GetYTop()
 
-	max := D.GetXRight()
+	max := D.GetXRight() 
 	may := D.GetYBot()
 
 	D.SetXLeft(curX - D.GetRelativeX())

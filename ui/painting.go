@@ -1,5 +1,7 @@
 package ui
 
+// // #include "imguiWrapper.h"
+// import "C"
 import (
 	"image"
 	"image/color"
@@ -11,22 +13,27 @@ import (
 )
 
 func drawUI() {
-	g.SingleWindowWithMenuBar().Layout(
-		g.MenuBar().Layout(
-			g.Button("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) }),	
-		), 
-	// g.SingleWindow().Layout(
-		g.Column(
+	Project := subelements.GetPro()
+	// g.SingleWindowWithMenuBar().Layout(
+	// 	g.MenuBar().Layout(
+	// 		g.Button("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) }),	
+	// 	), 
+	g.SingleWindow().Layout(
+		// g.Column(
 			g.Custom(func() {
 				canvas := g.GetCanvas()
 				AddOverView(canvas)
-				AddObjectSelect(canvas)
+				// AddObjectSelect(canvas)
 
 				for _, v := range Project.Can.Dragables {
 					AddObject(canvas, v)
 				}
+
+				for _, v := range Project.Obj.Pressables {
+					AddButton(canvas, v)
+				}
 			}),
-		),
+		// ),
 		
 	)
 }
@@ -45,17 +52,33 @@ func AddObject(c *g.Canvas, drag elements.Dragable) {
 	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, drag.GetName())
 }
 
+func AddButton(c *g.Canvas, pres elements.Pressable) {
+	pos := g.GetCursorScreenPos()
+	
+	mix := pres.GetXLeft()
+	miy := pres.GetYTop()
+
+	max := pres.GetXRight()
+	may := pres.GetYBot()
+
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, pres.GetName())
+}
+
 func AddSeperation(c *g.Canvas, XCord int) {
+	Project := subelements.GetPro()
 	pos := g.GetCursorScreenPos()
 	c.AddLine(pos.Add(image.Pt(XCord, 0)), pos.Add(image.Pt(XCord, Project.Win.YHeight)), color.White, 1)
 }
 
 func AddOverView(c *g.Canvas) {
+	Project := subelements.GetPro()
 	pos := g.GetCursorScreenPos()
-	c.AddRectFilled(pos.Add(image.Pt(0, 0)), pos.Add(image.Pt(Project.Can.XLeft, Project.Win.YHeight)), color.White, 0, 5)
+	c.AddRectFilled(pos.Add(image.Pt(-20, -20)), pos.Add(image.Pt(Project.Can.XLeft, Project.Win.YHeight)), color.White, 0, 5)
 }
 
 func AddObjectSelect(c *g.Canvas) {
+	Project := subelements.GetPro()
 	pos := g.GetCursorScreenPos()
-	c.AddRectFilled(pos.Add(image.Pt(Project.Win.XWidth, 0)), pos.Add(image.Pt(Project.Can.XRight, Project.Win.YHeight)), color.White, 0, 5)
+	c.AddRectFilled(pos.Add(image.Pt(Project.Win.XWidth, -20)), pos.Add(image.Pt(Project.Can.XRight, Project.Win.YHeight)), color.White, 0, 5)
 }

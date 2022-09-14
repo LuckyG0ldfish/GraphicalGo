@@ -1,6 +1,11 @@
 package ui
 
-import "time"
+import (
+	"fmt"
+	"time"
+
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+)
 
 var (
 	// testVar g.CustomWidget
@@ -25,21 +30,25 @@ func handleGeneralMousePosition() {
 }
 
 func CursorOnCanvas() bool {
+	Project := subelements.GetPro()
 	curX, _ := CursorPos()
 	return (curX > Project.Can.XLeft && curX < Project.Can.XRight)
 }
 
 func CursorOnOverView() bool {
+	Project := subelements.GetPro()
 	curX, _ := CursorPos()
 	return (curX < Project.Can.XLeft)
 }
 
 func CursorOnObjectSelect() bool {
+	Project := subelements.GetPro()
 	curX, _ := CursorPos()
 	return (curX > Project.Can.XRight)
 }
 
 func handleClickToCanvas() {
+	Project := subelements.GetPro()
 	if LeftPressed() {
 		for _, v := range Project.Can.Dragables {
 			if isDragable(v) {
@@ -55,6 +64,14 @@ func handleClickToOverView() {
 }
 
 func handleClickToObjectSelect() {
-
-	return
+	Project := subelements.GetPro()
+	if LeftPressed() {
+		for _, v := range Project.Obj.Pressables {
+			if isPressable(v) {
+				for !LeftReleased(){}
+				v.Press()
+				fmt.Println("1")
+			}
+		}
+	}
 }

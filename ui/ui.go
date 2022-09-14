@@ -11,10 +11,8 @@ type Handler interface {
 	handleUI()
 }
 
-var Project subelements.Project
-
 func WindowManager() {
-	Project = *subelements.NewProject("GraphicalGo", 1500, 800)
+	Project := subelements.NewProject("GraphicalGo", 1500, 800)
 	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
 	go handleGeneralMousePosition()
 	go updateFrameSize(w)
@@ -24,6 +22,7 @@ func WindowManager() {
 func updateFrameSize(w *g.MasterWindow) {
 	for {
 		wid, hei := w.GetSize()
+		Project := subelements.GetPro()
 		Project.Win.XWidth = wid
 		Project.Win.YHeight = hei
 		Project.Can.XRight = wid - 200 

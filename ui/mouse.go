@@ -6,11 +6,13 @@ import (
 	// imgui "github.com/AllenDang/imgui-go"
 )
 
+var offset int = 7 
+
 func CursorPos() (x int, y int) {	
 	// x, y = ebiten.CursorPosition()
 	point := g.GetMousePos()
-	x = point.X
-	y = point.Y
+	x = point.X - offset
+	y = point.Y - offset
 	return 
 }
 
