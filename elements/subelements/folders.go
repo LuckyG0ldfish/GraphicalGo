@@ -2,6 +2,7 @@ package subelements
 
 type Folder struct {
 	name string 
+	level int
 	path string
 	files []File
 
@@ -20,9 +21,11 @@ type Folder struct {
 func CreateFolders(name string, x int) (*Folder) {
 	var folder Folder
 	folder.name = name
+	folder.level = 1
+	
 	folder.xLeft = x
 	folder.yTop = 100
-
+	
 	folder.xRight = x+300
 	folder.yBot = 300
 
@@ -95,4 +98,8 @@ func (fol *Folder) GetID() int{
 
 func (fol *Folder) GetType() int{
 	return 1	// Type for Folder
+}
+
+func (fol *Folder) GetLevel() int{
+	return fol.level
 }

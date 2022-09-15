@@ -3,6 +3,7 @@ package subelements
 
 type File struct{
 	Name string
+	level int
 	Imports string
 	Objects []Object
 	Functions []string
@@ -57,4 +58,8 @@ func (fil *File) GetID() int{
 
 func (fil *File) GetType() int{
 	return 2 	// Type of File 
+}
+
+func (fil *File) GetLevel() int{
+	return fil.level 
 }

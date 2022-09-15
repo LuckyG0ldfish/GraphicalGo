@@ -2,6 +2,7 @@ package subelements
 
 type Object struct {
 	Name      string
+	level int
 	Variables []Variable
 
 	xLeft 	int 
@@ -19,6 +20,8 @@ type Object struct {
 func CreateObject(name string, x int) (*Object) {
 	var object Object
 	object.Name = name
+	object.level = 1
+
 	object.xLeft = x
 	object.yTop = 100
 
@@ -92,4 +95,8 @@ func (ob *Object) GetID() int{
 
 func (ob *Object) GetType() int{
 	return 3 // type of object
+}
+
+func (ob *Object) GetLevel() int{
+	return ob.level
 }
