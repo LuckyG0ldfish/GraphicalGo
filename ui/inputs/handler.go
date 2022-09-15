@@ -1,4 +1,4 @@
-package ui
+package inputs
 
 import (
 	"time"
@@ -13,7 +13,7 @@ var (
 	// Dragables []elements.Dragable
 )
 
-func handleGeneralMousePosition() {
+func HandleGeneralMousePosition() {
 	for {
 		for CursorOnOverView() {
 			handleClickToOverView()

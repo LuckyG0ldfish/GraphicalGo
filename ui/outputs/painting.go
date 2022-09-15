@@ -1,4 +1,4 @@
-package ui
+package outputs
 
 // // #include "imguiWrapper.h"
 // import "C"
@@ -12,7 +12,7 @@ import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
-func drawUI() {
+func DrawUI() {
 	Project := subelements.GetPro()
 	// g.SingleWindowWithMenuBar().Layout(
 	// 	g.MenuBar().Layout(
@@ -63,9 +63,9 @@ func AddFolder(c *g.Canvas, drag elements.Dragable) {
 	max := drag.GetXRight()
 	may := drag.GetYBot()
 
-	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+100, miy+20)), color.White, 0, 5)
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.White, 0, 5)
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
-	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(max-3, miy+20)), color.Black, 1)
+	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+107, miy+20)), color.Black, 1)
 	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, drag.GetName())
 
 	// expand

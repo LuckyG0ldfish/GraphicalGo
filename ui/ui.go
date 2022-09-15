@@ -5,6 +5,8 @@ import (
 
 	g "github.com/AllenDang/giu"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+	"github.com/LuckyG0ldfish/GraphicalGo/ui/inputs"
+	"github.com/LuckyG0ldfish/GraphicalGo/ui/outputs"
 )
 
 type Handler interface {
@@ -14,9 +16,9 @@ type Handler interface {
 func WindowManager() {
 	Project := subelements.NewProject("GraphicalGo", 1500, 800)
 	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
-	go handleGeneralMousePosition()
+	go inputs.HandleGeneralMousePosition()
 	go updateFrameSize(w)
-	w.Run(drawUI)
+	w.Run(outputs.DrawUI)
 }
 
 func updateFrameSize(w *g.MasterWindow) {

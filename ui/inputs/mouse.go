@@ -1,4 +1,4 @@
-package ui
+package inputs
 
 import (
 	g "github.com/AllenDang/giu"

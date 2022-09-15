@@ -1,6 +1,5 @@
 package subelements
 
-
 type Folder struct {
 	name string 
 	path string
@@ -29,6 +28,9 @@ func CreateFolders(name string, x int) (*Folder) {
 
 	folder.xRelative = 0
 	folder.yRelative = 0 
+
+	pro.Can.Dragables = append(pro.Can.Dragables, &folder) 
+	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
 	return &folder
 }
 

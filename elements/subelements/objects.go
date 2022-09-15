@@ -27,6 +27,9 @@ func CreateObject(name string, x int) (*Object) {
 
 	object.xRelative = 0
 	object.yRelative = 0 
+
+	pro.Can.Dragables = append(pro.Can.Dragables, &object)
+
 	return &object
 }
 

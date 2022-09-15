@@ -27,6 +27,9 @@ func CreateButton(name string, pos int, fun func()) *Button{
 
 	but.yTop = yVar
 	but.yBot = yVar+20
+
+	pro.Obj.Pressables = append(pro.Obj.Pressables, &but)
+
  	return &but
 }
 

@@ -1,4 +1,4 @@
-package ui
+package inputs
 
 import "github.com/LuckyG0ldfish/GraphicalGo/elements"
 
