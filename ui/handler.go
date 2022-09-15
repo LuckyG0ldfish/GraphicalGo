@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
@@ -50,6 +49,11 @@ func CursorOnObjectSelect() bool {
 func handleClickToCanvas() {
 	Project := subelements.GetPro()
 	if LeftPressed() {
+		for _, v := range Project.Can.Expandables {
+			if isExpandable(v) {
+				UpdateExpanding(v)
+			}
+		}
 		for _, v := range Project.Can.Dragables {
 			if isDragable(v) {
 				UpdateDragPos(v)
@@ -70,7 +74,6 @@ func handleClickToObjectSelect() {
 			if isPressable(v) {
 				for !LeftReleased(){}
 				v.Press()
-				fmt.Println("1")
 			}
 		}
 	}

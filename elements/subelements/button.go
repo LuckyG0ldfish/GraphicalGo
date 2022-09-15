@@ -1,6 +1,5 @@
 package subelements
 
-
 type Button struct {
 	name 		string 
 	pos 		int

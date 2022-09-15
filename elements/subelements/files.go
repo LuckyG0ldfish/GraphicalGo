@@ -54,3 +54,7 @@ func (fil *File) SetYRight(y int) {
 func (fil *File) GetID() int{
 	return fil.id
 }
+
+func (fil *File) GetType() int{
+	return 2 	// Type of File 
+}

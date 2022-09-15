@@ -8,7 +8,8 @@ package elements
 // "github.com/AllenDang/imgui-go"
 
 type Dragable interface {
-	GetID() int
+	GetID() int 	// 1 = Folder, 2 = File, 3 = Object
+	GetType() int
 	GetName() string
 
 	GetXLeft() int

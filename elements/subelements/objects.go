@@ -83,6 +83,10 @@ func (ob *Object) SetYBot(y int) {
 	ob.yBot = y
 }
 
-func (ob Object) GetID() int{
+func (ob *Object) GetID() int{
 	return ob.id
+}
+
+func (ob *Object) GetType() int{
+	return 3 // type of object
 }
