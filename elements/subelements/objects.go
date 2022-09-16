@@ -1,9 +1,19 @@
 package subelements
 
+import (
+	"image"
+	"image/color"
+
+	g "github.com/AllenDang/giu"
+
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+	
+) 
+
 type Object struct {
 	Name      string
 	level int
-	Variables []Variable
+	Variables []*Variable
 
 	xLeft 	int 
 	yTop	int 
@@ -34,6 +44,29 @@ func CreateObject(name string, x int) (*Object) {
 	pro.Can.Dragables = append(pro.Can.Dragables, &object)
 
 	return &object
+}
+
+func (ob *Object) Draw(c *g.Canvas) {
+	pos := g.GetCursorScreenPos()
+
+	mix := ob.GetXLeft()
+	miy := ob.GetYTop()
+
+	max := ob.GetXRight()
+	may := ob.GetYBot()
+
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(max-3, miy+20)), color.Black, 1)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, ob.GetName())
+}
+
+func (ob *Object) GetSubelements() []elements.Drawable {
+	r := make([]elements.Drawable, 0)
+	// add Variable
+	// for _, v := range fil.files {
+	// 	r = append(r, v)
+	// }
+	return r
 }
 
 func (ob *Object) GetName() string{
@@ -100,3 +133,5 @@ func (ob *Object) GetType() int{
 func (ob *Object) GetLevel() int{
 	return ob.level
 }
+
+

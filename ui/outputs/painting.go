@@ -22,11 +22,13 @@ func DrawUI() {
 		// g.Column(
 			g.Custom(func() {
 				canvas := g.GetCanvas()
-				AddOverView(canvas)
+				decideDrawOrder(canvas)
 
-				for _, v := range Project.Can.Dragables {
-					AddDragable(canvas, v)
-				}
+				// AddOverView(canvas)
+
+				// for _, v := range Project.Can.Dragables {
+				// 	AddDragable(canvas, v)
+				// }
 
 				for _, v := range Project.Obj.Pressables {
 					AddButton(canvas, v)

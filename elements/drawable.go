@@ -1,5 +1,11 @@
 package elements
 
+import (
+	g "github.com/AllenDang/giu"
+)
+
 type Drawable interface {
-	Draw()
+	GetType() int
+	Draw(*g.Canvas)
+	GetSubelements() []Drawable
 }

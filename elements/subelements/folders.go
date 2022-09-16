@@ -1,10 +1,21 @@
 package subelements
 
+import (
+	"image"
+	"image/color"
+
+	g "github.com/AllenDang/giu"
+
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+	
+) 
+
 type Folder struct {
 	name string 
 	level int
 	path string
-	files []File
+	files []*File
+	folders []*Folder
 
 	xLeft 	int 
 	yTop	int 
@@ -34,7 +45,37 @@ func CreateFolders(name string, x int) (*Folder) {
 
 	pro.Can.Dragables = append(pro.Can.Dragables, &folder) 
 	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
+	pro.Folders = append(pro.Folders, &folder)
 	return &folder
+}
+
+func (fol *Folder) Draw(c *g.Canvas) {
+	pos := g.GetCursorScreenPos()
+
+	mix := fol.GetXLeft()
+	miy := fol.GetYTop()
+
+	max := fol.GetXRight()
+	may := fol.GetYBot()
+
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.White, 0, 5)
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+107, miy+20)), color.Black, 1)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, fol.GetName())
+
+	// expand
+	c.AddRectFilled(pos.Add(image.Pt(max-6, may-6)), pos.Add(image.Pt(max-1, may-1)), color.Black, 0, 5)
+}
+
+func (fol *Folder) GetSubelements() []elements.Drawable {
+	r := make([]elements.Drawable, 0)
+	for _, v := range fol.folders {
+		r = append(r, v)
+	}
+	for _, v := range fol.files {
+		r = append(r, v)
+	}
+	return r
 }
 
 func (fol *Folder) Expand() {}
@@ -81,7 +122,6 @@ func (fol *Folder) GetRelativeY() int{
 
 func (fol *Folder) SetRelativeX(i int) {
 	fol.xRelative = i 
-
 }
 
 func (fol *Folder) SetRelativeY(i int) {
@@ -103,3 +143,4 @@ func (fol *Folder) GetType() int{
 func (fol *Folder) GetLevel() int{
 	return fol.level
 }
+

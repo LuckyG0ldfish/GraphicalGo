@@ -6,12 +6,12 @@ import (
 	sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
-func VariablesToString(vari sub.Variable) (variables string) {
+func VariablesToString(vari *sub.Variable) (variables string) {
 	variables = vari.Name + " " + vari.Typ
 	return
 }
 
-func ObjectsToString(obj sub.Object) (objects string) {
+func ObjectsToString(obj *sub.Object) (objects string) {
 	objects = "type " + obj.Name + " struct {\n"
 	for _, s := range obj.Variables {
 		objects = objects + VariablesToString(s) + "\n"

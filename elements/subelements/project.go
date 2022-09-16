@@ -11,6 +11,8 @@ type Project struct {
 	Can Canvas
 	Over OverView
 	Obj ObjectSelect
+	Folders []*Folder
+	Files []*File
 }
 
 type Window struct {
