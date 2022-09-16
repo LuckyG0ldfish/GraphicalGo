@@ -1,9 +1,19 @@
 package subelements
 
+import (
+	"image"
+	"image/color"
+
+	g "github.com/AllenDang/giu"
+
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"	
+) 
+
 type Button struct {
 	name 		string 
 	pos 		int
 	function 	func()
+	level 		int
 
 	xRight		int
 	yBot		int
@@ -17,6 +27,7 @@ func CreateButton(name string, pos int, fun func()) *Button{
 	but.name = name 
 	but.pos = pos
 	but.function = fun 
+	but.level = 1
 
 	yVar := 10 + pos*Dist
 	mix := pro.Can.XRight
@@ -31,6 +42,28 @@ func CreateButton(name string, pos int, fun func()) *Button{
 	pro.Obj.Pressables = append(pro.Obj.Pressables, &but)
 
  	return &but
+}
+
+func (but *Button) Draw(c *g.Canvas) {
+	pos := g.GetCursorScreenPos()
+	
+	mix := but.GetXLeft()
+	miy := but.GetYTop()
+
+	max := but.GetXRight()
+	may := but.GetYBot()
+
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, but.GetName())
+}
+
+func (but *Button) GetSubelements() []elements.Drawable {
+	r := make([]elements.Drawable, 0)
+	// add Variable
+	// for _, v := range fil.files {
+	// 	r = append(r, v)
+	// }
+	return r
 }
 
 func (but *Button) Press() {

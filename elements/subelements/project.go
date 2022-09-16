@@ -59,6 +59,7 @@ func trialSetup() {
 	CreateObject("Test2 :Object", 300)
 	CreateObject("Test3 :Object", 500)
 	CreateFolders("Test1 :Package", 700)
+	CreateFiles("Test : File", 400)
 	
 	CreateButton("Create Package", 0, func(){
 		CreateFolders("addedPackage", 700)

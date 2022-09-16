@@ -33,7 +33,7 @@ func FilesToString(file sub.File, packageName string, path string) {
 		files = files + s + "\n \n"
 	}
 
-	f, err := os.Create(path + "/" + file.Name + ".go")
+	f, err := os.Create(path + "/" + file.GetName() + ".go")
 
 	if err != nil {
 		return 
