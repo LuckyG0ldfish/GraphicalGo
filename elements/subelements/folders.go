@@ -1,13 +1,13 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 
 	g "github.com/AllenDang/giu"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	
 ) 
 
 type Folder struct {
@@ -81,11 +81,8 @@ func (fol *Folder) GetSubelements() []elements.Drawable {
 }
 
 func (fol *Folder) Adding() {
-	fol.addingState = true 
-}
-
-func (fol *Folder) ReverseAdding() {
 	fol.addingState = false 
+	fmt.Println("file adding done")
 }
 
 func (fol *Folder) Expand() {}
@@ -158,3 +155,6 @@ func (fol *Folder) GetAddingState() bool {
 	return fol.addingState
 }
 
+func (fol *Folder) SetAddingState(a bool) {
+	fol.addingState = a
+}

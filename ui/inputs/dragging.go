@@ -17,12 +17,16 @@ func UpdateDragPos(D elements.Dragable) {
 		test, add := checkOnAdding(D)
 		if test {
 			if !add.GetAddingState() {
-				add.Adding()
+				add.SetAddingState(true)
 			}
+		} else {
+			reverseAllAddingStates()
 		}
 		if LeftReleased() {
 			// pro.DragInProgress = false 
-			add.ReverseAdding()
+			if test {
+				add.Adding()
+			}
 			return
 		}
 	}

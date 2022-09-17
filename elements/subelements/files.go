@@ -1,13 +1,13 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 
 	g "github.com/AllenDang/giu"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	
 ) 
 
 type File struct {
@@ -33,11 +33,9 @@ type File struct {
 }
 
 func (fil *File) Adding() {
-	fil.addingState = true 
-}
-
-func (fil *File) ReverseAdding() {
+	
 	fil.addingState = false 
+	fmt.Println("file adding done")
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -159,6 +157,10 @@ func (fil *File) SetRelativeY(i int) {
 
 func (fil *File) GetAddingState() bool {
 	return fil.addingState
+}
+
+func (fil *File) SetAddingState(a bool) {
+	fil.addingState = a
 }
 
 func (fil *File) Expand() {}

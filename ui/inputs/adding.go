@@ -5,6 +5,13 @@ import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
+func reverseAllAddingStates() {
+	pro := subelements.GetPro()
+	for _, v := range pro.Can.Add {
+		v.SetAddingState(false)
+	}
+}
+
 func checkOnAdding(e elements.Dragable) (bool, elements.Addable) {
 	pro := subelements.GetPro()
 	typ := e.GetType()
@@ -12,6 +19,9 @@ func checkOnAdding(e elements.Dragable) (bool, elements.Addable) {
 	check := false 
 	if typ == 1 || typ == 2 { // Folder or file 
 		for _, v := range pro.Can.Add {
+			if v.GetName() == e.GetName() {
+				continue
+			}
 			if CanAdd(v.GetXLeft(), v.GetXRight(), v.GetYTop(), v.GetYBot(), e.GetXLeft(), e.GetXRight(), e.GetYTop(), e.GetYBot()) {
 				if temp == nil || temp.GetLevel() < v.GetLevel() {
 					check = true 

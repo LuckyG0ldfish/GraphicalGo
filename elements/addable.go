@@ -2,7 +2,8 @@ package elements
 
 type Addable interface {
 	Adding()
-	ReverseAdding()
+
+	GetName() string
 
 	GetXLeft() int
 	GetYTop() int
@@ -12,4 +13,5 @@ type Addable interface {
 
 	GetLevel() int
 	GetAddingState() bool 
+	SetAddingState(bool)  
 }
