@@ -32,10 +32,19 @@ type File struct {
 	yRelative int
 }
 
-func (fil *File) Adding() {
-	
+func (fil *File) Adding(e elements.Dragable) {
 	fil.addingState = false 
 	fmt.Println("file adding done")
+
+	switch e.GetType() {
+	case 3: // Type Object 
+		obj, e := e.(*Object)
+		if e {
+			obj.level = fil.level + 1
+			fil.Objects = append(fil.Objects, obj)
+		}
+	case 4: // Type Variable 
+	}
 }
 
 func (fil *File) Draw(c *g.Canvas) {

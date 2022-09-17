@@ -80,9 +80,24 @@ func (fol *Folder) GetSubelements() []elements.Drawable {
 	return r
 }
 
-func (fol *Folder) Adding() {
+func (fol *Folder) Adding(e elements.Dragable) {
 	fol.addingState = false 
 	fmt.Println("file adding done")
+
+	switch e.GetType() {
+		case 1: // Type Folder 
+			fol2, e := e.(*Folder)
+			if e {
+				fol2.level = fol.level + 1
+				fol.folders = append(fol.folders, fol2)
+			}
+		case 2: // Type File 
+			fil, e := e.(*File)
+			if e {
+				fil.level = fol.level + 1
+				fol.files = append(fol.files, fil)
+			}
+		}
 }
 
 func (fol *Folder) Expand() {}

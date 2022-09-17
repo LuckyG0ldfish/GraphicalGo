@@ -1,7 +1,7 @@
 package elements
 
 type Addable interface {
-	Adding()
+	Adding(Dragable)
 
 	GetName() string
 

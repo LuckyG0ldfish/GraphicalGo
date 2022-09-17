@@ -25,7 +25,7 @@ func UpdateDragPos(D elements.Dragable) {
 		if LeftReleased() {
 			// pro.DragInProgress = false 
 			if test {
-				add.Adding()
+				add.Adding(D)
 			}
 			return
 		}
