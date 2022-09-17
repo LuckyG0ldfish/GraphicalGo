@@ -1,15 +1,28 @@
 package inputs
 
-import "github.com/LuckyG0ldfish/GraphicalGo/elements"
+import (
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+)
 
 func UpdateDragPos(D elements.Dragable) {
 	working := getRelativePos(D)
 	if !working {
 		return
 	}
+	// pro := subelements.GetPro()
+	// pro.DragInProgress = true 
 	for {
 		updateRelativePos(D)
+		test, add := checkOnAdding(D)
+		if test {
+			if !add.GetAddingState() {
+				add.Adding()
+			}
+		}
 		if LeftReleased() {
+			// pro.DragInProgress = false 
+			add.ReverseAdding()
 			return
 		}
 	}

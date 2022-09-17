@@ -17,6 +17,7 @@ type File struct {
 	Objects   []*Object
 	Functions []string
 	id        int
+	addingState	bool 
 
 	objBut 	*Button
 	varBut 	*Button
@@ -29,6 +30,14 @@ type File struct {
 
 	xRelative int
 	yRelative int
+}
+
+func (fil *File) Adding() {
+	fil.addingState = true 
+}
+
+func (fil *File) ReverseAdding() {
+	fil.addingState = false 
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -79,6 +88,7 @@ func CreateFiles(name string, x int) *File {
 	// fil.varBut = CreateButton(" ", 0, fil.Expand)
 	pro.Can.Dragables = append(pro.Can.Dragables, &fil) 
 	pro.Can.Expandables = append(pro.Can.Expandables, &fil)
+	pro.Can.Add = append(pro.Can.Add, &fil)
 	pro.Files = append(pro.Files, &fil)
 	return &fil
 }
@@ -145,6 +155,10 @@ func (fil *File) SetRelativeX(i int) {
 
 func (fil *File) SetRelativeY(i int) {
 	fil.yRelative = i
+}
+
+func (fil *File) GetAddingState() bool {
+	return fil.addingState
 }
 
 func (fil *File) Expand() {}

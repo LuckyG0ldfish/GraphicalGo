@@ -7,6 +7,8 @@ var Dist int = 40
 
 type Project struct {
 	Name string
+	DragInProgress bool
+
 	Win Window
 	Can Canvas
 	Over OverView
@@ -26,6 +28,7 @@ type Canvas struct {
 	Dragables []elements.Dragable
 	Expandables []elements.Expandable
 	Draw []elements.Drawable
+	Add []elements.Addable
 }
 
 type OverView struct {
@@ -45,6 +48,7 @@ func NewProject(Name string, Width int, Height int) *Project{
 	pro.Win = newWindow(Width, Height) 
 	pro.Can.XLeft = 100 
 	pro.Can.XRight = Width-200
+	pro.DragInProgress = false 
 	trialSetup()
 	return &pro
 }

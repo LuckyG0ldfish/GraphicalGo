@@ -16,6 +16,7 @@ type Folder struct {
 	path string
 	files []*File
 	folders []*Folder
+	addingState	bool 
 
 	xLeft 	int 
 	yTop	int 
@@ -45,6 +46,7 @@ func CreateFolders(name string, x int) (*Folder) {
 
 	pro.Can.Dragables = append(pro.Can.Dragables, &folder) 
 	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
+	pro.Can.Add = append(pro.Can.Add, &folder)
 	pro.Folders = append(pro.Folders, &folder)
 	return &folder
 }
@@ -76,6 +78,14 @@ func (fol *Folder) GetSubelements() []elements.Drawable {
 		r = append(r, v)
 	}
 	return r
+}
+
+func (fol *Folder) Adding() {
+	fol.addingState = true 
+}
+
+func (fol *Folder) ReverseAdding() {
+	fol.addingState = false 
 }
 
 func (fol *Folder) Expand() {}
@@ -142,5 +152,9 @@ func (fol *Folder) GetType() int{
 
 func (fol *Folder) GetLevel() int{
 	return fol.level
+}
+
+func (fol *Folder) GetAddingState() bool {
+	return fol.addingState
 }
 
