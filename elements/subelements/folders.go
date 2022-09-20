@@ -17,6 +17,8 @@ type Folder struct {
 	files []*File
 	folders []*Folder
 	addingState	bool 
+	updatedSize bool 
+	parent elements.Drawable
 
 	xLeft 	int 
 	yTop	int 
@@ -34,6 +36,7 @@ func CreateFolders(name string, x int) (*Folder) {
 	var folder Folder
 	folder.name = name
 	folder.level = 1
+	folder.updatedSize = false 
 	
 	folder.xLeft = x
 	folder.yTop = 100
@@ -89,15 +92,17 @@ func (fol *Folder) Adding(e elements.Dragable) {
 			fol2, e := e.(*Folder)
 			if e {
 				fol2.level = fol.level + 1
+				fol2.parent = fol 
 				fol.folders = append(fol.folders, fol2)
 			}
 		case 2: // Type File 
 			fil, e := e.(*File)
 			if e {
 				fil.level = fol.level + 1
+				fil.parent = fol
 				fol.files = append(fol.files, fil)
 			}
-		}
+	}
 }
 
 func (fol *Folder) Expand() {}
@@ -172,4 +177,8 @@ func (fol *Folder) GetAddingState() bool {
 
 func (fol *Folder) SetAddingState(a bool) {
 	fol.addingState = a
+}
+
+func (fol *Folder) GetParent() elements.Drawable {
+	return fol.parent
 }

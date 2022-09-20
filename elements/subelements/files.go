@@ -18,6 +18,7 @@ type File struct {
 	Functions []string
 	id        int
 	addingState	bool 
+	parent elements.Drawable
 
 	objBut 	*Button
 	varBut 	*Button
@@ -170,6 +171,10 @@ func (fil *File) GetAddingState() bool {
 
 func (fil *File) SetAddingState(a bool) {
 	fil.addingState = a
+}
+
+func (fil *File) GetParent() elements.Drawable {
+	return fil.parent
 }
 
 func (fil *File) Expand() {}

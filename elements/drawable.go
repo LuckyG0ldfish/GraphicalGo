@@ -8,4 +8,14 @@ type Drawable interface {
 	GetType() int
 	Draw(*g.Canvas)
 	GetSubelements() []Drawable
+	GetParent() Drawable
+
+	GetXLeft() int
+	GetYTop() int
+	
+	GetXRight() int
+	GetYBot() int
+
+	SetXRight(int)
+	SetYBot(int)
 }

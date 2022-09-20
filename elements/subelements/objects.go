@@ -14,6 +14,7 @@ type Object struct {
 	Name      string
 	level int
 	Variables []*Variable
+	parent elements.Drawable
 
 	xLeft 	int 
 	yTop	int 
@@ -134,4 +135,6 @@ func (ob *Object) GetLevel() int{
 	return ob.level
 }
 
-
+func (ob *Object) GetParent() elements.Drawable {
+	return ob.parent
+}
