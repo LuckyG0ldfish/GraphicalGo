@@ -3,6 +3,7 @@ package inputs
 import (
 	"time"
 
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
@@ -54,11 +55,15 @@ func handleClickToCanvas() {
 				UpdateExpanding(v)
 			}
 		}
+		var drag elements.Dragable
 		for _, v := range Project.Can.Dragables {
 			if isDragable(v) {
-				UpdateDragPos(v)
+				if drag == nil || drag.GetLevel() < v.GetLevel(){
+					drag = v 
+				}
 			}
 		}
+		UpdateDragPos(drag)
 	}
 }
 

@@ -19,10 +19,10 @@ func checkOnAdding(e elements.Dragable) (bool, elements.Addable) {
 	check := false 
 	if typ == 1 || typ == 2 { // Folder or file 
 		for _, v := range pro.Can.Add {
+			// TODO: Better solution (id)
 			if v.GetName() == e.GetName() {
 				continue
-			}
-			if CanAdd(v.GetXLeft(), v.GetXRight(), v.GetYTop(), v.GetYBot(), e.GetXLeft(), e.GetXRight(), e.GetYTop(), e.GetYBot()) {
+			} else if CanAdd(v.GetXLeft(), v.GetXRight(), v.GetYTop(), v.GetYBot(), e.GetXLeft(), e.GetXRight(), e.GetYTop(), e.GetYBot()) {
 				if temp == nil || temp.GetLevel() < v.GetLevel() {
 					check = true 
 					temp = v

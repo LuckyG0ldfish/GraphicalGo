@@ -10,6 +10,7 @@ func UpdateExpanding(E elements.Expandable) {
 	for {
 		updateExpandableSize(E)
 		if LeftReleased() {
+			E.Expand()
 			return
 		}
 	}

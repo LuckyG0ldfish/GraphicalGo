@@ -34,18 +34,21 @@ type File struct {
 }
 
 func (fil *File) Adding(e elements.Dragable) {
-	fil.addingState = false 
-	fmt.Println("file adding done")
 
 	switch e.GetType() {
 	case 3: // Type Object 
-		obj, e := e.(*Object)
-		if e {
+		obj, er := e.(*Object)
+		if er {
 			obj.level = fil.level + 1
+			obj.parent = fil 
 			fil.Objects = append(fil.Objects, obj)
+			NotifyOfSizeChange(obj.parent)
 		}
 	case 4: // Type Variable 
 	}
+	
+	fil.addingState = false 
+	fmt.Println("file adding done")
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -86,8 +89,8 @@ func CreateFiles(name string, x int) *File {
 	fil.xLeft = x
 	fil.yTop = 100
 	
-	fil.xRight = x+300
-	fil.yBot = 300
+	fil.xRight = x+110
+	fil.yBot = 140
 
 	fil.xRelative = 0
 	fil.yRelative = 0 
@@ -177,4 +180,7 @@ func (fil *File) GetParent() elements.Drawable {
 	return fil.parent
 }
 
-func (fil *File) Expand() {}
+func (fil *File) Expand() {
+	NotifyOfSizeChange(fil.parent)
+}
+

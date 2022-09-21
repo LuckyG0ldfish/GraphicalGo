@@ -11,6 +11,7 @@ type Dragable interface {
 	GetID() int 	// 1 = Folder, 2 = File, 3 = Object
 	GetType() int
 	GetName() string
+	GetLevel() int
 
 	GetXLeft() int
 	GetYTop() int

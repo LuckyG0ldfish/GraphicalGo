@@ -1,6 +1,8 @@
 package inputs
 
 import (
+	"fmt"
+
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
@@ -18,14 +20,17 @@ func UpdateDragPos(D elements.Dragable) {
 		if test {
 			if !add.GetAddingState() {
 				add.SetAddingState(true)
+				fmt.Println("add1")
 			}
 		} else {
 			reverseAllAddingStates()
+			// fmt.Println("add2")
 		}
 		if LeftReleased() {
 			// pro.DragInProgress = false 
 			if test {
 				add.Adding(D)
+				fmt.Println("add3")
 			}
 			return
 		}

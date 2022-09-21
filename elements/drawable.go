@@ -16,6 +16,9 @@ type Drawable interface {
 	GetXRight() int
 	GetYBot() int
 
+	SetXLeft(int)
+	SetYTop(int)
+
 	SetXRight(int)
 	SetYBot(int)
 }

@@ -7,7 +7,6 @@ import (
 	g "github.com/AllenDang/giu"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	
 ) 
 
 type Object struct {

@@ -41,8 +41,8 @@ func CreateFolders(name string, x int) (*Folder) {
 	folder.xLeft = x
 	folder.yTop = 100
 	
-	folder.xRight = x+300
-	folder.yBot = 300
+	folder.xRight = x+110
+	folder.yBot = 140
 
 	folder.xRelative = 0
 	folder.yRelative = 0 
@@ -85,7 +85,7 @@ func (fol *Folder) GetSubelements() []elements.Drawable {
 
 func (fol *Folder) Adding(e elements.Dragable) {
 	fol.addingState = false 
-	fmt.Println("file adding done")
+	fmt.Println("folder adding done")
 
 	switch e.GetType() {
 		case 1: // Type Folder 
@@ -94,6 +94,7 @@ func (fol *Folder) Adding(e elements.Dragable) {
 				fol2.level = fol.level + 1
 				fol2.parent = fol 
 				fol.folders = append(fol.folders, fol2)
+				NotifyOfSizeChange(fol2.parent)
 			}
 		case 2: // Type File 
 			fil, e := e.(*File)
@@ -101,11 +102,14 @@ func (fol *Folder) Adding(e elements.Dragable) {
 				fil.level = fol.level + 1
 				fil.parent = fol
 				fol.files = append(fol.files, fil)
+				NotifyOfSizeChange(fil.parent)
 			}
 	}
 }
 
-func (fol *Folder) Expand() {}
+func (fol *Folder) Expand() {
+	NotifyOfSizeChange(fol.parent)
+}
 
 func (fol *Folder) GetXLeft() int{
 	return fol.xLeft
