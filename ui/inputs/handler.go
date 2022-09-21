@@ -63,7 +63,9 @@ func handleClickToCanvas() {
 				}
 			}
 		}
-		UpdateDragPos(drag)
+		if drag != nil {
+			UpdateDragPos(drag)
+		}
 	}
 }
 

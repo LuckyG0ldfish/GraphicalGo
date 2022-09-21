@@ -75,9 +75,9 @@ func adjustInternalPositioning(d elements.Drawable) {
 			adjustInternalPositioning(v)
 			prevX = 0 
 			if prevY > v.GetYBot() {
-				ypos = ypos + prevY + ydist
+				ypos = prevY + ydist
 			} else {
-				ypos = ypos + v.GetYBot() + ydist
+				ypos = v.GetYBot() + ydist
 			}
 		}
 	}
