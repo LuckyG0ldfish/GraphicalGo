@@ -8,10 +8,10 @@ import (
 )
 
 var (
-	// testVar g.CustomWidget
-	// dragInProgress bool
-	// Dragable       elements.Dragable
-	// Dragables []elements.Dragable
+// testVar g.CustomWidget
+// dragInProgress bool
+// Dragable       elements.Dragable
+// Dragables []elements.Dragable
 )
 
 func HandleGeneralMousePosition() {
@@ -55,11 +55,11 @@ func handleClickToCanvas() {
 				UpdateExpanding(v)
 			}
 		}
-		var drag elements.Dragable
+		var drag elements.Element
 		for _, v := range Project.Can.Dragables {
 			if isDragable(v) {
-				if drag == nil || drag.GetLevel() < v.GetLevel(){
-					drag = v 
+				if drag == nil || drag.GetLevel() < v.GetLevel() {
+					drag = v
 				}
 			}
 		}
@@ -79,7 +79,8 @@ func handleClickToObjectSelect() {
 	if LeftPressed() {
 		for _, v := range Project.Obj.Pressables {
 			if isPressable(v) {
-				for !LeftReleased(){}
+				for !LeftReleased() {
+				}
 				v.Press()
 			}
 		}

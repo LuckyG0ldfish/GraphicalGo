@@ -1,24 +1,24 @@
 package elements
 
-import (
-	g "github.com/AllenDang/giu"
-)
+// import (
+// 	g "github.com/AllenDang/giu"
+// )
 
-type Drawable interface {
-	GetType() int
-	Draw(*g.Canvas)
-	GetSubelements() []Drawable
-	GetParent() Drawable
+// type Element interface {
+// 	GetType() int
+// 	Draw(*g.Canvas)
+// 	GetSubelements() []Element
+// 	GetParent() Element
 
-	GetXLeft() int
-	GetYTop() int
-	
-	GetXRight() int
-	GetYBot() int
+// 	GetXLeft() int
+// 	GetYTop() int
 
-	SetXLeft(int)
-	SetYTop(int)
+// 	GetXRight() int
+// 	GetYBot() int
 
-	SetXRight(int)
-	SetYBot(int)
-}
+// 	SetXLeft(int)
+// 	SetYTop(int)
+
+// 	SetXRight(int)
+// 	SetYBot(int)
+// }

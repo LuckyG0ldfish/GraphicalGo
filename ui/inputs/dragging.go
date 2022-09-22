@@ -7,15 +7,11 @@ import (
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
-func UpdateDragPos(D elements.Dragable) {
-	working := getRelativePos(D)
-	if !working {
-		return
-	}
-	// pro := subelements.GetPro()
-	// pro.DragInProgress = true 
+func UpdateDragPos(D elements.Element) {
+	updateRelPosRec(D)
+
 	for {
-		updateRelativePos(D)
+		updatePosRec(D)
 		test, add := checkOnAdding(D)
 		if test {
 			if !add.GetAddingState() {
@@ -27,7 +23,7 @@ func UpdateDragPos(D elements.Dragable) {
 			// fmt.Println("add2")
 		}
 		if LeftReleased() {
-			// pro.DragInProgress = false 
+			// pro.DragInProgress = false
 			if test {
 				add.Adding(D)
 				fmt.Println("add3")
@@ -37,10 +33,21 @@ func UpdateDragPos(D elements.Dragable) {
 	}
 }
 
-func getRelativePos(D elements.Dragable) (working bool) {
-	if !isDragable(D) {
-		return false
+func updateRelPosRec(D elements.Element) {
+	working := updateRelativePos(D)
+	if !working {
+		fmt.Println("not working")
+		return
 	}
+	for _, v := range D.GetSubelements() {
+		updateRelPosRec(v)
+	}
+}
+
+func updateRelativePos(D elements.Element) (working bool) {
+	// if !isDragable(D) {
+	// 	return false
+	// }
 	posX, posY := CursorPos()
 	relX := posX - D.GetXLeft()
 	relY := posY - D.GetYTop()
@@ -52,27 +59,47 @@ func getRelativePos(D elements.Dragable) (working bool) {
 	return true
 }
 
-func updateRelativePos(D elements.Dragable) {
+func updatePosRec(D elements.Element) {
 	curX, curY := CursorPos()
 
 	mix := D.GetXLeft()
 	miy := D.GetYTop()
 
-	max := D.GetXRight() 
+	max := D.GetXRight()
 	may := D.GetYBot()
 
 	D.SetXLeft(curX - D.GetRelativeX())
 	D.SetYTop(curY - D.GetRelativeY())
 	// fmt.Println("")
-	D.SetXRight(D.GetXLeft()+ (max-mix))
-	D.SetYBot(D.GetYTop()+ (may-miy))
+	D.SetXRight(D.GetXLeft() + (max - mix))
+	D.SetYBot(D.GetYTop() + (may - miy))
+
+	for _, v := range D.GetSubelements() {
+		updatePosRec(v)
+	}
+}
+
+func updatePos(D elements.Element) {
+	curX, curY := CursorPos()
+
+	mix := D.GetXLeft()
+	miy := D.GetYTop()
+
+	max := D.GetXRight()
+	may := D.GetYBot()
+
+	D.SetXLeft(curX - D.GetRelativeX())
+	D.SetYTop(curY - D.GetRelativeY())
+	// fmt.Println("")
+	D.SetXRight(D.GetXLeft() + (max - mix))
+	D.SetYBot(D.GetYTop() + (may - miy))
 }
 
 // fix cursor in object
-func isDragable(D elements.Dragable) bool {
+func isDragable(D elements.Element) bool {
 	posX, posY := CursorPos()
 
-	if posX > D.GetXLeft() && posY > D.GetYTop() && posX < D.GetXRight()&& posY < D.GetYBot(){ 
+	if posX > D.GetXLeft() && posY > D.GetYTop() && posX < D.GetXRight() && posY < D.GetYBot() {
 		return true
 	}
 	return false

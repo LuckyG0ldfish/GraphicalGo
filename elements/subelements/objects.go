@@ -7,39 +7,40 @@ import (
 	g "github.com/AllenDang/giu"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-) 
+)
 
 type Object struct {
 	Name      string
-	level int
+	level     int
 	Variables []*Variable
-	parent elements.Drawable
+	parent    elements.Element
 
-	xLeft 	int 
-	yTop	int 
+	xLeft int
+	yTop  int
 
-	xRight 	int 
-	yBot	int 
+	xRight int
+	yBot   int
 
-	xRelative int 
-	yRelative int 
+	xRelative int
+	yRelative int
 
-	id 		int
+	id int
 }
 
-func CreateObject(name string, x int) (*Object) {
+func CreateObject(name string, x int) *Object {
 	var object Object
 	object.Name = name
 	object.level = 1
+	object.id = GetNextID()
 
 	object.xLeft = x
 	object.yTop = 100
 
-	object.xRight = x+100
+	object.xRight = x + 100
 	object.yBot = 200
 
 	object.xRelative = 0
-	object.yRelative = 0 
+	object.yRelative = 0
 
 	pro.Can.Dragables = append(pro.Can.Dragables, &object)
 
@@ -60,8 +61,8 @@ func (ob *Object) Draw(c *g.Canvas) {
 	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, ob.GetName())
 }
 
-func (ob *Object) GetSubelements() []elements.Drawable {
-	r := make([]elements.Drawable, 0)
+func (ob *Object) GetSubelements() []elements.Element {
+	r := make([]elements.Element, 0)
 	// add Variable
 	// for _, v := range fil.files {
 	// 	r = append(r, v)
@@ -69,32 +70,32 @@ func (ob *Object) GetSubelements() []elements.Drawable {
 	return r
 }
 
-func (ob *Object) GetName() string{
+func (ob *Object) GetName() string {
 	return ob.Name
 }
 
-func (ob *Object) GetRelativeX() int{
+func (ob *Object) GetRelativeX() int {
 	return ob.xRelative
 }
 
-func (ob *Object) GetRelativeY() int{
+func (ob *Object) GetRelativeY() int {
 	return ob.yRelative
 }
 
 func (ob *Object) SetRelativeX(i int) {
-	ob.xRelative = i 
+	ob.xRelative = i
 
 }
 
 func (ob *Object) SetRelativeY(i int) {
-	ob.yRelative = i 
+	ob.yRelative = i
 }
 
-func (ob *Object) GetXLeft() int{
+func (ob *Object) GetXLeft() int {
 	return ob.xLeft
 }
 
-func (ob *Object) GetYTop() int{
+func (ob *Object) GetYTop() int {
 	return ob.yTop
 }
 
@@ -106,11 +107,11 @@ func (ob *Object) SetYTop(y int) {
 	ob.yTop = y
 }
 
-func (ob *Object) GetXRight() int{
+func (ob *Object) GetXRight() int {
 	return ob.xRight
 }
 
-func (ob *Object) GetYBot() int{
+func (ob *Object) GetYBot() int {
 	return ob.yBot
 }
 
@@ -122,18 +123,18 @@ func (ob *Object) SetYBot(y int) {
 	ob.yBot = y
 }
 
-func (ob *Object) GetID() int{
+func (ob *Object) GetID() int {
 	return ob.id
 }
 
-func (ob *Object) GetType() int{
+func (ob *Object) GetType() int {
 	return 3 // type of object
 }
 
-func (ob *Object) GetLevel() int{
+func (ob *Object) GetLevel() int {
 	return ob.level
 }
 
-func (ob *Object) GetParent() elements.Drawable {
+func (ob *Object) GetParent() elements.Element {
 	return ob.parent
 }

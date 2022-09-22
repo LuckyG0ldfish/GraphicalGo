@@ -7,7 +7,11 @@ type Pressable interface {
 	
 	GetXLeft() int
 	GetYTop() int
+	SetXLeft(int)
+	SetYTop(int)
 
 	GetXRight() int
 	GetYBot() int
+	SetXRight(int)
+	SetYBot(int)
 }

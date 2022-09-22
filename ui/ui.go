@@ -25,9 +25,15 @@ func updateFrameSize(w *g.MasterWindow) {
 	for {
 		wid, hei := w.GetSize()
 		Project := subelements.GetPro()
-		Project.Win.XWidth = wid
-		Project.Win.YHeight = hei
-		Project.Can.XRight = wid - 200 
-		time.Sleep(10 * time.Millisecond)
+		
+		if wid != Project.Win.XWidth || hei != Project.Win.YHeight {
+			Project.Win.XWidth = wid
+			Project.Win.YHeight = hei
+			Project.Can.XRight = wid - 200 
+			Project.Obj.XLeft = wid - 200
+			Project.Obj.XRight = wid
+			Project.Obj.AdjustButtonPositions()
+		}
+		time.Sleep(100 * time.Millisecond)
 	}
 }

@@ -1,17 +1,18 @@
 package elements
 
 type Addable interface {
-	Adding(Dragable)
+	Adding(Element)
 
-	GetName() string
+	// GetName() string
+	GetID() int 
 
 	GetXLeft() int
 	GetYTop() int
-	
+
 	GetXRight() int
 	GetYBot() int
 
 	GetLevel() int
-	GetAddingState() bool 
-	SetAddingState(bool)  
+	GetAddingState() bool
+	SetAddingState(bool)
 }

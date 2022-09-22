@@ -3,26 +3,27 @@ package outputs
 import (
 	"image"
 	"image/color"
+
 	g "github.com/AllenDang/giu"
+
 	// "github.com/AllenDang/imgui-go"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
-
-func AddDragable(c *g.Canvas, drag elements.Dragable) {
+func AddDragable(c *g.Canvas, drag elements.Element) {
 	typeID := drag.GetType()
 	switch typeID {
-	case 1:	// ID Folder 
+	case 1: // ID Folder
 		AddFolder(c, drag)
-	case 2:	// ID File 
+	case 2: // ID File
 		AddFile(c, drag)
-	case 3:	// ID Object 
+	case 3: // ID Object
 		AddObject(c, drag)
-	} 
+	}
 }
 
-func AddFolder(c *g.Canvas, drag elements.Dragable) {
+func AddFolder(c *g.Canvas, drag elements.Element) {
 	pos := g.GetCursorScreenPos()
 
 	mix := drag.GetXLeft()
@@ -40,11 +41,11 @@ func AddFolder(c *g.Canvas, drag elements.Dragable) {
 	c.AddRectFilled(pos.Add(image.Pt(max-6, may-6)), pos.Add(image.Pt(max-1, may-1)), color.Black, 0, 5)
 }
 
-func AddFile(c *g.Canvas, drag elements.Dragable) {
-	
+func AddFile(c *g.Canvas, drag elements.Element) {
+
 }
 
-func AddObject(c *g.Canvas, drag elements.Dragable) {
+func AddObject(c *g.Canvas, drag elements.Element) {
 	pos := g.GetCursorScreenPos()
 
 	mix := drag.GetXLeft()
