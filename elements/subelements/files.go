@@ -11,12 +11,14 @@ import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
+const FileType = 2
+
 type File struct {
 	name        string
 	level       int
-	Imports     string
-	Objects     []*Object
-	Functions   []string
+	imports     string
+	objects     []*Object
+	functions   []string
 	id          int
 	addingState bool
 	parent      elements.Element
@@ -37,19 +39,37 @@ type File struct {
 func (fil *File) Adding(e elements.Element) {
 
 	switch e.GetType() {
-	case 3: // Type Object
+	case ObjectType: 
 		obj, er := e.(*Object)
 		if er {
-			obj.level = fil.level + 1
+			RecursiveLevelChange(fil.level + 1, obj)
 			obj.parent = fil
-			fil.Objects = append(fil.Objects, obj)
+			fil.objects = append(fil.objects, obj)
 			NotifyOfSizeChange(obj.parent)
+			fmt.Println("fileadding")
+		} else {
+			fmt.Println("failed to convert")
 		}
-	case 4: // Type Variable
+	case VariableType: 
 	}
 
 	fil.addingState = false
 	fmt.Println("file adding done")
+}
+
+func (fil *File) Removing(e elements.Element) {
+	if e.GetType() == ObjectType {
+		obj, er := e.(*Object)
+		if er {
+			fil.objects = removeObject(fil.objects, obj)
+		}
+	} // else if e.GetType() == FileType {
+	// 	file, er := e.(*File)
+	// 	if er {
+	// 		removeVariable(fil.variables, file)
+	// 	}
+	// }
+	NotifyOfSizeChange(fil)
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -78,7 +98,7 @@ func (fil *File) Draw(c *g.Canvas) {
 
 func (fil *File) GetSubelements() []elements.Element {
 	r := make([]elements.Element, 0)
-	for _, v := range fil.Objects {
+	for _, v := range fil.objects {
 		r = append(r, v)
 	}
 	// add Variable
@@ -149,11 +169,15 @@ func (fil *File) GetID() int {
 }
 
 func (fil *File) GetType() int {
-	return 2 // Type of File
+	return FileType // Type of File
 }
 
 func (fil *File) GetLevel() int {
 	return fil.level
+}
+
+func (fil *File) SetLevel(i int) {
+	fil.level = i
 }
 
 func (fil *File) GetName() string {
@@ -186,6 +210,14 @@ func (fil *File) SetAddingState(a bool) {
 
 func (fil *File) GetParent() elements.Element {
 	return fil.parent
+}
+
+func (fil *File) SetParent(par elements.Element)  {
+	fil.parent = par 
+}
+
+func (fil *File) SetAsParent(child elements.Element)  {
+	child.SetParent(fil)
 }
 
 func (fil *File) Expand() {

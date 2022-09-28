@@ -4,12 +4,18 @@ import (
 	"fmt"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
 func UpdateDragPos(D elements.Element) {
 	updateRelPosRec(D)
-
+	pare := D.GetParent()
+	if pare != nil {
+		pare.Removing(D)
+		subelements.RecursiveLevelChange(1, D) // base level 
+		D.SetParent(nil)
+	}
 	for {
 		updatePosRec(D)
 		test, add := checkOnAdding(D)
@@ -22,11 +28,14 @@ func UpdateDragPos(D elements.Element) {
 			reverseAllAddingStates()
 			// fmt.Println("add2")
 		}
+		
 		if LeftReleased() {
 			// pro.DragInProgress = false
 			if test {
 				add.Adding(D)
 				fmt.Println("add3")
+			} else {
+
 			}
 			return
 		}

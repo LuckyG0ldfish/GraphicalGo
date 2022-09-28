@@ -92,3 +92,128 @@ func adjustSubElement(xleft int, yTop int, d elements.Element) {
 	d.SetXRight(xleft + xdist)
 	d.SetYBot(yTop + ydist)
 }
+
+func removeElementByID(e []*elements.Element, i int) []*elements.Element {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*elements.Element, 0)
+	}
+
+	ret := make([]*elements.Element, len(e)-1)
+	tempI := 0 
+	for in, v := range e {
+		if in != i {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func findID(e []*elements.Element, el *elements.Element) (bool, int) {
+	for i, v := range e {
+		if v == el {
+			return true, i
+		}
+	}
+	return false, -1
+}
+
+func removeElement(e []*elements.Element, el *elements.Element) []*elements.Element {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*elements.Element, 0)
+	}
+
+	ret := make([]*elements.Element, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != el {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func removeFolder(e []*Folder, el *Folder) []*Folder {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*Folder, 0)
+	}
+
+	ret := make([]*Folder, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != el {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func removeFile(e []*File, el *File) []*File {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*File, 0)
+	}
+
+	ret := make([]*File, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != el {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func removeObject(e []*Object, el *Object) []*Object {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*Object, 0)
+	}
+
+	ret := make([]*Object, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != el {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func removeVariable(e []*Variable, el *Variable) []*Variable {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*Variable, 0)
+	}
+
+	ret := make([]*Variable, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != el {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
+}
+
+func RecursiveLevelChange(startlevel int, el elements.Element) {
+	el.SetLevel(startlevel)
+
+	for _, v := range el.GetSubelements() {
+		RecursiveLevelChange(startlevel + 1 , v)
+	}
+}

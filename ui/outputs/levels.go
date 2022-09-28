@@ -9,17 +9,23 @@ import (
 func decideDrawOrder(c *g.Canvas) {
 	pro := subelements.GetPro()
 
-	for _, v := range pro.Folders {
+	for _, v := range pro.Can.Dragables {
 		if v.GetLevel() == 1 {
 			recDraw(v, c)
 		}
 	}
 
-	for _, v := range pro.Files {
-		if v.GetLevel() == 1 {
-			recDraw(v, c)
-		}
-	}
+	// for _, v := range pro.Folders {
+	// 	if v.GetLevel() == 1 {
+	// 		recDraw(v, c)
+	// 	}
+	// }
+
+	// for _, v := range pro.Files {
+	// 	if v.GetLevel() == 1 {
+	// 		recDraw(v, c)
+	// 	}
+	// }
 
 }
 

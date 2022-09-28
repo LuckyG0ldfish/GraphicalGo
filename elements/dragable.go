@@ -16,10 +16,14 @@ type Element interface {
 	GetType() int
 	GetName() string
 	GetLevel() int
+	SetLevel(int)
 
 	Draw(*g.Canvas)
 	GetSubelements() []Element
 	GetParent() Element
+	SetParent(Element)
+
+	Removing(Element)
 
 	GetXLeft() int
 	GetYTop() int

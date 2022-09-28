@@ -1,7 +1,7 @@
 package conversion
 
 import (
-	"os"
+	// "os"
 
 	sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
@@ -20,33 +20,33 @@ func ObjectsToString(obj *sub.Object) (objects string) {
 	return objects
 }
 
-func FilesToString(file sub.File, packageName string, path string) {
-	files := "package " + packageName + "\n \n"
+// func FilesToString(file sub.File, packageName string, path string) {
+// 	files := "package " + packageName + "\n \n"
 
-	files = files + file.Imports + "\n \n"
+// 	files = files + file.Imports + "\n \n"
 
-	for _, s := range file.Objects {
-		files = files + ObjectsToString(s) + "\n \n"
-	}
+// 	for _, s := range file.Objects {
+// 		files = files + ObjectsToString(s) + "\n \n"
+// 	}
 
-	for _, s := range file.Functions {
-		files = files + s + "\n \n"
-	}
+// 	for _, s := range file.Functions {
+// 		files = files + s + "\n \n"
+// 	}
 
-	f, err := os.Create(path + "/" + file.GetName() + ".go")
+// 	f, err := os.Create(path + "/" + file.GetName() + ".go")
 
-	if err != nil {
-		return 
-	}
+// 	if err != nil {
+// 		return 
+// 	}
 
-	// f.Close()
+// 	// f.Close()
 
-	_, err = f.WriteString(files)
+// 	_, err = f.WriteString(files)
 	
-	if err != nil {
-		return 
-	}
-}
+// 	if err != nil {
+// 		return 
+// 	}
+// }
 
 func FoldersToString(folder sub.Folder) (folders string) {
 	

@@ -11,6 +11,8 @@ import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
+const FolderType = 1
+
 type Folder struct {
 	name        string
 	level       int
@@ -88,28 +90,54 @@ func (fol *Folder) GetSubelements() []elements.Element {
 	return r
 }
 
+// func (fol *Folder) GetSubelementsAddable() []elements.Addable {
+// 	r := make([]elements.Element, 0)
+// 	for _, v := range fol.folders {
+// 		r = append(r, v)
+// 	}
+// 	for _, v := range fol.files {
+// 		r = append(r, v)
+// 	}
+// 	return r
+// }
+
 func (fol *Folder) Adding(e elements.Element) {
 	fol.addingState = false
 	fmt.Println("folder adding done")
 
 	switch e.GetType() {
-	case 1: // Type Folder
+	case FolderType: 
 		fol2, e := e.(*Folder)
 		if e {
-			fol2.level = fol.level + 1
+			RecursiveLevelChange(fol.level + 1, fol2) 
 			fol2.parent = fol
 			fol.folders = append(fol.folders, fol2)
 			NotifyOfSizeChange(fol2.parent)
 		}
-	case 2: // Type File
+	case FileType: 
 		fil, e := e.(*File)
 		if e {
-			fil.level = fol.level + 1
+			RecursiveLevelChange(fol.level + 1, fil)
 			fil.parent = fol
 			fol.files = append(fol.files, fil)
 			NotifyOfSizeChange(fil.parent)
 		}
 	}
+}
+
+func (fol *Folder) Removing(e elements.Element) {
+	if e.GetType() == FolderType {
+		folder, er := e.(*Folder)
+		if er {
+			fol.folders = removeFolder(fol.folders, folder)
+		}
+	} else if e.GetType() == FileType {
+		file, er := e.(*File)
+		if er {
+			fol.files = removeFile(fol.files, file)
+		}
+	}
+	NotifyOfSizeChange(fol)
 }
 
 func (fol *Folder) Expand() {
@@ -173,11 +201,15 @@ func (fol *Folder) GetID() int {
 }
 
 func (fol *Folder) GetType() int {
-	return 1 // Type for Folder
+	return FolderType // Type for Folder
 }
 
 func (fol *Folder) GetLevel() int {
 	return fol.level
+}
+
+func (fol *Folder) SetLevel(i int) {
+	fol.level = i
 }
 
 func (fol *Folder) GetAddingState() bool {
@@ -190,4 +222,12 @@ func (fol *Folder) SetAddingState(a bool) {
 
 func (fol *Folder) GetParent() elements.Element {
 	return fol.parent
+}
+
+func (fol *Folder) SetParent(par elements.Element)  {
+	fol.parent = par
+}
+
+func (fol *Folder) SetAsParent(child elements.Element)  {
+	child.SetParent(fol)
 }

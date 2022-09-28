@@ -9,6 +9,8 @@ import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
+const ObjectType = 3
+
 type Object struct {
 	Name      string
 	level     int
@@ -57,6 +59,7 @@ func (ob *Object) Draw(c *g.Canvas) {
 	may := ob.GetYBot()
 
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
+	c.AddRect(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(max, may)), color.Black, 0, 0, 1)
 	c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(max-3, miy+20)), color.Black, 1)
 	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, ob.GetName())
 }
@@ -68,6 +71,16 @@ func (ob *Object) GetSubelements() []elements.Element {
 	// 	r = append(r, v)
 	// }
 	return r
+}
+
+func (ob *Object) Removing(e elements.Element) {
+	if e.GetType() == VariableType {
+		// folder, er := e.(*Folder)
+		// if er {
+		// 	removeFolder(ob.folders, folder)
+		// }
+	} 
+	NotifyOfSizeChange(ob)
 }
 
 func (ob *Object) GetName() string {
@@ -128,13 +141,25 @@ func (ob *Object) GetID() int {
 }
 
 func (ob *Object) GetType() int {
-	return 3 // type of object
+	return ObjectType // type of object
 }
 
 func (ob *Object) GetLevel() int {
 	return ob.level
 }
 
+func (ob *Object) SetLevel(i int) {
+	ob.level = i
+}
+
 func (ob *Object) GetParent() elements.Element {
 	return ob.parent
+}
+
+func (ob *Object) SetParent(par elements.Element)  {
+	ob.parent = par
+}
+
+func (ob *Object) SetAsParent(child elements.Element)  {
+	child.SetParent(ob)
 }

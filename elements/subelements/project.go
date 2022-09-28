@@ -60,7 +60,7 @@ func trialSetup() {
 	// pro.Can.Expandables = make([]elements.Expandable, 0)
 	// pro.Obj.Pressables = make([]elements.Pressable, 0)
 
-	// CreateObject("Test1 :Object", 100)
+	CreateObject("Test1 :Object", 200)
 	// CreateObject("Test2 :Object", 300)
 	// CreateObject("Test3 :Object", 500)
 	CreateFolders("Test1 :Package", 700)
@@ -72,9 +72,9 @@ func trialSetup() {
 	CreateButton("Create File", 1, func() {
 		CreateFiles("addedFile", 400)
 	})
-	// CreateButton("Create Object", 2, func() {
-	// 	CreateObject("addedObject", 200)
-	// })
+	CreateButton("Create Object", 2, func() {
+		CreateObject("addedObject", 200)
+	})
 }
 
 func newWindow(Width int, Height int) Window {
