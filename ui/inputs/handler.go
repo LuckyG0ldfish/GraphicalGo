@@ -3,8 +3,9 @@ package inputs
 import (
 	"time"
 
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+
 )
 
 var (
@@ -30,25 +31,25 @@ func HandleGeneralMousePosition() {
 }
 
 func CursorOnCanvas() bool {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	curX, _ := CursorPos()
 	return (curX > Project.Can.XLeft && curX < Project.Can.XRight)
 }
 
 func CursorOnOverView() bool {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	curX, _ := CursorPos()
 	return (curX < Project.Can.XLeft)
 }
 
 func CursorOnObjectSelect() bool {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	curX, _ := CursorPos()
 	return (curX > Project.Can.XRight)
 }
 
 func handleClickToCanvas() {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	if LeftPressed() {
 		for _, v := range Project.Can.Expandables {
 			if isExpandable(v) {
@@ -75,7 +76,7 @@ func handleClickToOverView() {
 }
 
 func handleClickToObjectSelect() {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	if LeftPressed() {
 		for _, v := range Project.Obj.Pressables {
 			if isPressable(v) {

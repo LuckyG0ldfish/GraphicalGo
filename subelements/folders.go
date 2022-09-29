@@ -7,11 +7,14 @@ import (
 	"strconv"
 
 	g "github.com/AllenDang/giu"
-
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
 const FolderType = 1
+const FolderBaseWidth = 110
+const FolderBaseHeight = 40 
+
 
 type Folder struct {
 	name        string
@@ -36,17 +39,18 @@ type Folder struct {
 }
 
 func CreateFolders(name string, x int) *Folder {
+	pro := context.GetPro()
 	var folder Folder
 	folder.name = name
 	folder.level = 1
 	folder.updatedSize = false
-	folder.id = GetNextID()
+	folder.id = context.GetNextID()
 
 	folder.xLeft = x
 	folder.yTop = 100
 
-	folder.xRight = x + 110
-	folder.yBot = 140
+	folder.xRight = x + FolderBaseWidth
+	folder.yBot = folder.yTop + FolderBaseHeight
 
 	folder.xRelative = 0
 	folder.yRelative = 0
@@ -54,7 +58,8 @@ func CreateFolders(name string, x int) *Folder {
 	pro.Can.Dragables = append(pro.Can.Dragables, &folder)
 	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
 	pro.Can.Add = append(pro.Can.Add, &folder)
-	pro.Folders = append(pro.Folders, &folder)
+	// pro.Folders = append(pro.Folders, &folder)
+	pro.Level1 = append(pro.Level1, &folder)
 	return &folder
 }
 
@@ -70,7 +75,7 @@ func (fol *Folder) Draw(c *g.Canvas) {
 	name := strconv.Itoa(fol.GetID()) + " " + strconv.Itoa(fol.GetLevel())
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.White, 0, 5)
 	c.AddRect(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.Black, 0, 0, 1)
-	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), Gray, 0, 5)
+	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), context.Gray, 0, 5)
 	c.AddRect(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.Black, 0, 0, 1)
 	// c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+107, miy+20)), color.Black, 1)
 	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, name)
@@ -109,39 +114,58 @@ func (fol *Folder) Adding(e elements.Element) {
 	case FolderType: 
 		fol2, e := e.(*Folder)
 		if e {
-			RecursiveLevelChange(fol.level + 1, fol2) 
+			context.RecursiveLevelChange(fol.level + 1, fol2) 
 			fol2.parent = fol
 			fol.folders = append(fol.folders, fol2)
-			NotifyOfSizeChange(fol2.parent)
 		}
 	case FileType: 
 		fil, e := e.(*File)
 		if e {
-			RecursiveLevelChange(fol.level + 1, fil)
+			context.RecursiveLevelChange(fol.level + 1, fil)
 			fil.parent = fol
 			fol.files = append(fol.files, fil)
-			NotifyOfSizeChange(fil.parent)
 		}
 	}
+	context.NotifyOfSizeChange(fol)
 }
 
 func (fol *Folder) Removing(e elements.Element) {
 	if e.GetType() == FolderType {
 		folder, er := e.(*Folder)
 		if er {
-			fol.folders = removeFolder(fol.folders, folder)
+			fol.folders = folder.removeFolder(fol.folders)
 		}
 	} else if e.GetType() == FileType {
 		file, er := e.(*File)
 		if er {
-			fol.files = removeFile(fol.files, file)
+			fol.files = file.removeFile(fol.files)
 		}
 	}
-	NotifyOfSizeChange(fol)
+	context.RecursiveLevelChange(1, e) // base level 
+	e.SetParent(nil)
+	context.NotifyOfSizeChange(fol)
+}
+
+func (fol *Folder) removeFolder(e []*Folder) []*Folder {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*Folder, 0)
+	}
+
+	ret := make([]*Folder, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != fol {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
 }
 
 func (fol *Folder) Expand() {
-	NotifyOfSizeChange(fol.parent)
+	context.NotifyOfSizeChange(fol.parent)
 }
 
 func (fol *Folder) GetXLeft() int {
@@ -230,4 +254,12 @@ func (fol *Folder) SetParent(par elements.Element)  {
 
 func (fol *Folder) SetAsParent(child elements.Element)  {
 	child.SetParent(fol)
+}
+
+func (fol *Folder) GetBaseHeight() int {
+	return FolderBaseHeight
+}
+
+func (fol *Folder) GetBaseWidth() int {
+	return FolderBaseWidth
 }

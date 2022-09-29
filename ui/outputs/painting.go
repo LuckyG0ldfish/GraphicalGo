@@ -9,11 +9,11 @@ import (
 	g "github.com/AllenDang/giu"
 	// "github.com/AllenDang/imgui-go"
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 )
 
 func DrawUI() {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	// g.SingleWindowWithMenuBar().Layout(
 	// 	g.MenuBar().Layout(
 	// 		g.Button("New Object").OnClick(func() { Project.Can.Dragables = append(Project.Can.Dragables, subelements.CreateObject("test", 160)) }),	
@@ -40,7 +40,7 @@ func DrawUI() {
 }
 
 func AddSeperation(c *g.Canvas, XCord int) {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	pos := g.GetCursorScreenPos()
 	c.AddLine(pos.Add(image.Pt(XCord, 0)), pos.Add(image.Pt(XCord, Project.Win.YHeight)), color.White, 1)
 }

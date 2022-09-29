@@ -1,4 +1,4 @@
-package subelements
+package context
 
 import (
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
@@ -6,6 +6,10 @@ import (
 )
 
 func calcNewSize(d []elements.Element) (w, h int) {
+	if len(d) == 0 {
+		return 0, 0 
+	}
+	
 	w = 0
 	h = 0
 	tempX := 0
@@ -44,13 +48,18 @@ func NotifyOfSizeChange(d elements.Element) {
 		return
 	}
 	temp := d.GetSubelements()
-	if len(temp) == 0 {
-		return
+	
+	if len(temp) != 0 {
+		w, h := calcNewSize(temp)
+		d.SetXRight(d.GetXLeft() + 30 + w)
+		d.SetYBot(d.GetYTop() + 40 + h)
+		adjustInternalPositioning(d)
+	} else {
+		d.GetBaseWidth()
+		d.SetXRight(d.GetXLeft() + d.GetBaseWidth())
+		d.SetYBot(d.GetYTop() + d.GetBaseHeight())
 	}
-	w, h := calcNewSize(temp)
-	d.SetXRight(d.GetXLeft() + 30 + w)
-	d.SetYBot(d.GetYTop() + 40 + h)
-	adjustInternalPositioning(d)
+	
 	if d.GetParent() != nil {
 		NotifyOfSizeChange(d.GetParent())
 	}
@@ -138,77 +147,7 @@ func removeElement(e []*elements.Element, el *elements.Element) []*elements.Elem
 	return ret
 }
 
-func removeFolder(e []*Folder, el *Folder) []*Folder {
-	// empty or last removing 
-	if len(e) < 2 {
-		return make([]*Folder, 0)
-	}
 
-	ret := make([]*Folder, len(e)-1)
-	tempI := 0 
-	for _, v := range e {
-		if v != el {
-			ret[tempI] = v
-			tempI ++ 
-		}
-	}
-
-	return ret
-}
-
-func removeFile(e []*File, el *File) []*File {
-	// empty or last removing 
-	if len(e) < 2 {
-		return make([]*File, 0)
-	}
-
-	ret := make([]*File, len(e)-1)
-	tempI := 0 
-	for _, v := range e {
-		if v != el {
-			ret[tempI] = v
-			tempI ++ 
-		}
-	}
-
-	return ret
-}
-
-func removeObject(e []*Object, el *Object) []*Object {
-	// empty or last removing 
-	if len(e) < 2 {
-		return make([]*Object, 0)
-	}
-
-	ret := make([]*Object, len(e)-1)
-	tempI := 0 
-	for _, v := range e {
-		if v != el {
-			ret[tempI] = v
-			tempI ++ 
-		}
-	}
-
-	return ret
-}
-
-func removeVariable(e []*Variable, el *Variable) []*Variable {
-	// empty or last removing 
-	if len(e) < 2 {
-		return make([]*Variable, 0)
-	}
-
-	ret := make([]*Variable, len(e)-1)
-	tempI := 0 
-	for _, v := range e {
-		if v != el {
-			ret[tempI] = v
-			tempI ++ 
-		}
-	}
-
-	return ret
-}
 
 func RecursiveLevelChange(startlevel int, el elements.Element) {
 	el.SetLevel(startlevel)

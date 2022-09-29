@@ -1,19 +1,20 @@
 package inputs
 
 import (
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+	"github.com/LuckyG0ldfish/GraphicalGo/subelements"
 )
 
 func reverseAllAddingStates() {
-	pro := subelements.GetPro()
+	pro := context.GetPro()
 	for _, v := range pro.Can.Add {
 		v.SetAddingState(false)
 	}
 }
 
 func checkOnAdding(e elements.Element) (bool, elements.Addable) {
-	pro := subelements.GetPro()
+	pro := context.GetPro()
 	// typ := e.GetType()
 	var temp elements.Addable
 	check := false

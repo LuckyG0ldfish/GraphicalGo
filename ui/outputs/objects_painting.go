@@ -3,10 +3,12 @@ package outputs
 import (
 	"image"
 	"image/color"
+
 	g "github.com/AllenDang/giu"
+
 	// "github.com/AllenDang/imgui-go"
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
 func AddButton(c *g.Canvas, pres elements.Pressable) {
@@ -23,7 +25,7 @@ func AddButton(c *g.Canvas, pres elements.Pressable) {
 }
 
 func AddObjectSelect(c *g.Canvas) {
-	Project := subelements.GetPro()
+	Project := context.GetPro()
 	pos := g.GetCursorScreenPos()
 	c.AddRectFilled(pos.Add(image.Pt(Project.Win.XWidth, -20)), pos.Add(image.Pt(Project.Can.XRight, Project.Win.YHeight)), color.White, 0, 5)
 }

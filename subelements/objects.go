@@ -5,11 +5,13 @@ import (
 	"image/color"
 
 	g "github.com/AllenDang/giu"
-
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
 const ObjectType = 3
+const ObjectBaseWidth = 100
+const ObjectBaseHeight = 100
 
 type Object struct {
 	Name      string
@@ -30,22 +32,24 @@ type Object struct {
 }
 
 func CreateObject(name string, x int) *Object {
+	pro := context.GetPro()
 	var object Object
+
 	object.Name = name
 	object.level = 1
-	object.id = GetNextID()
+	object.id = context.GetNextID()
 
 	object.xLeft = x
 	object.yTop = 100
 
-	object.xRight = x + 100
-	object.yBot = 200
+	object.xRight = x + ObjectBaseWidth
+	object.yBot = object.yTop + ObjectBaseHeight
 
 	object.xRelative = 0
 	object.yRelative = 0
 
 	pro.Can.Dragables = append(pro.Can.Dragables, &object)
-
+	pro.Level1 = append(pro.Level1, &object)
 	return &object
 }
 
@@ -73,6 +77,8 @@ func (ob *Object) GetSubelements() []elements.Element {
 	return r
 }
 
+
+
 func (ob *Object) Removing(e elements.Element) {
 	if e.GetType() == VariableType {
 		// folder, er := e.(*Folder)
@@ -80,7 +86,27 @@ func (ob *Object) Removing(e elements.Element) {
 		// 	removeFolder(ob.folders, folder)
 		// }
 	} 
-	NotifyOfSizeChange(ob)
+	context.RecursiveLevelChange(1, e) // base level 
+	e.SetParent(nil)
+	context.NotifyOfSizeChange(ob)
+}
+
+func (ob *Object) removeObject(e []*Object) []*Object {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*Object, 0)
+	}
+
+	ret := make([]*Object, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != ob {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
 }
 
 func (ob *Object) GetName() string {
@@ -162,4 +188,12 @@ func (ob *Object) SetParent(par elements.Element)  {
 
 func (ob *Object) SetAsParent(child elements.Element)  {
 	child.SetParent(ob)
+}
+
+func (ob *Object) GetBaseHeight() int {
+	return ObjectBaseHeight
+}
+
+func (ob *Object) GetBaseWidth() int {
+	return ObjectBaseWidth
 }

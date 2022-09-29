@@ -5,7 +5,7 @@ import (
 	"image/color"
 
 	g "github.com/AllenDang/giu"
-
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
@@ -26,13 +26,14 @@ type Button struct {
 }
 
 func CreateButton(name string, pos int, fun func()) *Button {
+	pro := context.GetPro()
 	var but Button
 	but.name = name
 	but.pos = pos
 	but.function = fun
 	but.level = 1
 
-	yVar := 10 + pos*Dist
+	yVar := 10 + pos*context.Dist
 	mix := pro.Can.XRight
 	max := pro.Win.XWidth
 
@@ -89,9 +90,9 @@ func (but *Button) GetName() string {
 // 	but.func = fun
 // }
 
-func ObjectButton(Pro Project) {
-	Pro.Can.Dragables = append(Pro.Can.Dragables, CreateObject("test", 200))
-}
+// func ObjectButton(Pro Project) {
+// 	Pro.Can.Dragables = append(Pro.Can.Dragables, CreateObject("test", 200))
+// }
 
 func (but *Button) GetXRight() int {
 	return but.xRight
@@ -123,4 +124,12 @@ func (but *Button) SetYTop(i int) {
 
 func (but *Button) SetYBot(i int) {
 	but.yBot = i
+}
+
+func (but *Button) SetXLeftObjectSelect(objXLeft int) {
+	but.xLeft = objXLeft + ButtonXLeftOffset
+}
+
+func (but *Button) SetXRightObjectSelect(objXRight int) {
+	but.xRight = objXRight - ButtonXRightOffset
 }

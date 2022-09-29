@@ -7,11 +7,13 @@ import (
 	"strconv"
 
 	g "github.com/AllenDang/giu"
-
+	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
 const FileType = 2
+const FileBaseWidth = 110
+const FileBaseHeight = 40
 
 type File struct {
 	name        string
@@ -42,10 +44,10 @@ func (fil *File) Adding(e elements.Element) {
 	case ObjectType: 
 		obj, er := e.(*Object)
 		if er {
-			RecursiveLevelChange(fil.level + 1, obj)
+			context.RecursiveLevelChange(fil.level + 1, obj)
 			obj.parent = fil
 			fil.objects = append(fil.objects, obj)
-			NotifyOfSizeChange(obj.parent)
+			context.NotifyOfSizeChange(obj.parent)
 			fmt.Println("fileadding")
 		} else {
 			fmt.Println("failed to convert")
@@ -61,7 +63,7 @@ func (fil *File) Removing(e elements.Element) {
 	if e.GetType() == ObjectType {
 		obj, er := e.(*Object)
 		if er {
-			fil.objects = removeObject(fil.objects, obj)
+			fil.objects = obj.removeObject(fil.objects)
 		}
 	} // else if e.GetType() == FileType {
 	// 	file, er := e.(*File)
@@ -69,7 +71,9 @@ func (fil *File) Removing(e elements.Element) {
 	// 		removeVariable(fil.variables, file)
 	// 	}
 	// }
-	NotifyOfSizeChange(fil)
+	context.RecursiveLevelChange(1, e) // base level 
+	e.SetParent(nil)
+	context.NotifyOfSizeChange(fil)
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -109,16 +113,17 @@ func (fil *File) GetSubelements() []elements.Element {
 }
 
 func CreateFiles(name string, x int) *File {
+	pro := context.GetPro()
 	var fil File
 	fil.name = name
 	fil.level = 1
-	fil.id = GetNextID()
+	fil.id = context.GetNextID()
 
 	fil.xLeft = x
 	fil.yTop = 100
 
-	fil.xRight = x + 110
-	fil.yBot = 140
+	fil.xRight = x + FileBaseWidth
+	fil.yBot = fil.yTop + FileBaseHeight
 
 	fil.xRelative = 0
 	fil.yRelative = 0
@@ -128,8 +133,27 @@ func CreateFiles(name string, x int) *File {
 	pro.Can.Dragables = append(pro.Can.Dragables, &fil)
 	pro.Can.Expandables = append(pro.Can.Expandables, &fil)
 	pro.Can.Add = append(pro.Can.Add, &fil)
-	pro.Files = append(pro.Files, &fil)
+	pro.Level1 = append(pro.Level1, &fil)
+	// pro.Files = append(pro.Files, &fil)
 	return &fil
+}
+
+func (fil *File) removeFile(e []*File) []*File {
+	// empty or last removing 
+	if len(e) < 2 {
+		return make([]*File, 0)
+	}
+
+	ret := make([]*File, len(e)-1)
+	tempI := 0 
+	for _, v := range e {
+		if v != fil {
+			ret[tempI] = v
+			tempI ++ 
+		}
+	}
+
+	return ret
 }
 
 func (fil *File) GetXLeft() int {
@@ -221,5 +245,13 @@ func (fil *File) SetAsParent(child elements.Element)  {
 }
 
 func (fil *File) Expand() {
-	NotifyOfSizeChange(fil.parent)
+	context.NotifyOfSizeChange(fil.parent)
+}
+
+func (fil *File) GetBaseHeight() int {
+	return FileBaseHeight
+}
+
+func (fil *File) GetBaseWidth() int {
+	return FileBaseWidth
 }

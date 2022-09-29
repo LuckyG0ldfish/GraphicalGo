@@ -18,6 +18,9 @@ type Element interface {
 	GetLevel() int
 	SetLevel(int)
 
+	GetBaseWidth() int 
+	GetBaseHeight() int 
+
 	Draw(*g.Canvas)
 	GetSubelements() []Element
 	GetParent() Element

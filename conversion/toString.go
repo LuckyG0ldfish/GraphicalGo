@@ -3,22 +3,22 @@ package conversion
 import (
 	// "os"
 
-	sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
+	// sub "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
 )
 
-func VariablesToString(vari *sub.Variable) (variables string) {
-	variables = vari.Name + " " + vari.Typ
-	return
-}
+// func VariablesToString(vari *sub.Variable) (variables string) {
+// 	variables = vari.Name + " " + vari.Typ
+// 	return
+// }
 
-func ObjectsToString(obj *sub.Object) (objects string) {
-	objects = "type " + obj.Name + " struct {\n"
-	for _, s := range obj.Variables {
-		objects = objects + VariablesToString(s) + "\n"
-	}
-	objects = objects + "}"
-	return objects
-}
+// func ObjectsToString(obj *sub.Object) (objects string) {
+// 	objects = "type " + obj.Name + " struct {\n"
+// 	for _, s := range obj.Variables {
+// 		objects = objects + VariablesToString(s) + "\n"
+// 	}
+// 	objects = objects + "}"
+// 	return objects
+// }
 
 // func FilesToString(file sub.File, packageName string, path string) {
 // 	files := "package " + packageName + "\n \n"
@@ -48,7 +48,7 @@ func ObjectsToString(obj *sub.Object) (objects string) {
 // 	}
 // }
 
-func FoldersToString(folder sub.Folder) (folders string) {
+// func FoldersToString(folder sub.Folder) (folders string) {
 	
-	return folders
-}
+// 	return folders
+// }

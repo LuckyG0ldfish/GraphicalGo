@@ -1,6 +1,8 @@
-package subelements
+package context
 
-import "github.com/LuckyG0ldfish/GraphicalGo/elements"
+import (
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+)
 
 var pro Project
 var Dist int = 40
@@ -13,8 +15,7 @@ type Project struct {
 	Can     Canvas
 	Over    OverView
 	Obj     ObjectSelect
-	Folders []*Folder
-	Files   []*File
+	Level1 	[]elements.Element
 }
 
 type Window struct {
@@ -25,6 +26,7 @@ type Window struct {
 type Canvas struct {
 	XLeft       int
 	XRight      int
+	Dragged 	elements.Element
 	Dragables   []elements.Element
 	Expandables []elements.Expandable
 	Draw        []elements.Element
@@ -50,32 +52,11 @@ func NewProject(Name string, Width int, Height int) *Project {
 	pro.Can.XRight = Width - 200
 	pro.DragInProgress = false
 	pro.nextID = 1
-	trialSetup()
+
 	return &pro
 }
 
-// only for testing
-func trialSetup() {
-	// pro.Can.Dragables = make([]elements.Element, 0)
-	// pro.Can.Expandables = make([]elements.Expandable, 0)
-	// pro.Obj.Pressables = make([]elements.Pressable, 0)
 
-	CreateObject("Test1 :Object", 200)
-	// CreateObject("Test2 :Object", 300)
-	// CreateObject("Test3 :Object", 500)
-	CreateFolders("Test1 :Package", 700)
-	CreateFiles("Test : File", 400)
-
-	CreateButton("Create Package", 0, func() {
-		CreateFolders("addedPackage", 700)
-	})
-	CreateButton("Create File", 1, func() {
-		CreateFiles("addedFile", 400)
-	})
-	CreateButton("Create Object", 2, func() {
-		CreateObject("addedObject", 200)
-	})
-}
 
 func newWindow(Width int, Height int) Window {
 	var Win Window
@@ -85,11 +66,9 @@ func newWindow(Width int, Height int) Window {
 }
 
 func (obj *ObjectSelect) AdjustButtonPositions() {
-	newButtonXLeft := obj.XLeft + ButtonXLeftOffset
-	newButtonXRight := obj.XRight - ButtonXRightOffset
 	for _, v := range obj.Pressables {
-		v.SetXLeft(newButtonXLeft)
-		v.SetXRight(newButtonXRight)
+		v.SetXLeftObjectSelect(obj.XLeft)
+		v.SetXRightObjectSelect(obj.XRight)
 	}
 }
 

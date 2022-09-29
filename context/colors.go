@@ -1,4 +1,4 @@
-package subelements
+package context
 
 import (
 	"image/color"

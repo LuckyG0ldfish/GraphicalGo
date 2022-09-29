@@ -14,4 +14,7 @@ type Pressable interface {
 	GetYBot() int
 	SetXRight(int)
 	SetYBot(int)
+
+	SetXLeftObjectSelect(int)
+	SetXRightObjectSelect(int)
 }
