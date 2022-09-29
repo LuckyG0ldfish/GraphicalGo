@@ -33,6 +33,7 @@ func DrawUI() {
 				for _, v := range Project.Obj.Pressables {
 					AddButton(canvas, v)
 				}
+				AddOverView(canvas)
 			}),
 		// ),
 		

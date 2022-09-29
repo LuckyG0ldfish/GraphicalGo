@@ -107,6 +107,7 @@ func (fol *Folder) GetSubelements() []elements.Element {
 // }
 
 func (fol *Folder) Adding(e elements.Element) {
+	pro := context.GetPro()
 	fol.addingState = false
 	fmt.Println("folder adding done")
 
@@ -126,10 +127,12 @@ func (fol *Folder) Adding(e elements.Element) {
 			fol.files = append(fol.files, fil)
 		}
 	}
+	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fol)
 }
 
 func (fol *Folder) Removing(e elements.Element) {
+	
 	if e.GetType() == FolderType {
 		folder, er := e.(*Folder)
 		if er {
@@ -143,6 +146,7 @@ func (fol *Folder) Removing(e elements.Element) {
 	}
 	context.RecursiveLevelChange(1, e) // base level 
 	e.SetParent(nil)
+	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fol)
 }
 

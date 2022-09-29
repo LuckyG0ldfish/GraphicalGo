@@ -39,7 +39,7 @@ type File struct {
 }
 
 func (fil *File) Adding(e elements.Element) {
-
+	
 	switch e.GetType() {
 	case ObjectType: 
 		obj, er := e.(*Object)
@@ -54,8 +54,9 @@ func (fil *File) Adding(e elements.Element) {
 		}
 	case VariableType: 
 	}
-
+	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	fil.addingState = false
+	
 	fmt.Println("file adding done")
 }
 
@@ -73,6 +74,7 @@ func (fil *File) Removing(e elements.Element) {
 	// }
 	context.RecursiveLevelChange(1, e) // base level 
 	e.SetParent(nil)
+	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fil)
 }
 

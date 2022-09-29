@@ -34,6 +34,7 @@ func updateFrameSize(w *g.MasterWindow) {
 			Project.Can.XRight = wid - 200 
 			Project.Obj.XLeft = wid - 200
 			Project.Obj.XRight = wid
+			
 			Project.Obj.AdjustButtonPositions()
 		}
 		time.Sleep(100 * time.Millisecond)
@@ -46,19 +47,19 @@ func trialSetup() {
 	// pro.Can.Expandables = make([]elements.Expandable, 0)
 	// pro.Obj.Pressables = make([]elements.Pressable, 0)
 
-	subelements.CreateObject("Test1 :Object", 200)
+	subelements.CreateObject("Object", 200)
 	// CreateObject("Test2 :Object", 300)
 	// CreateObject("Test3 :Object", 500)
-	subelements.CreateFolders("Test1 :Package", 700)
-	subelements.CreateFiles("Test : File", 400)
+	subelements.CreateFolders("Package", 700)
+	subelements.CreateFiles("File", 400)
 
 	subelements.CreateButton("Create Package", 0, func() {
-		subelements.CreateFolders("addedPackage", 700)
+		subelements.CreateFolders("Package", 700)
 	})
 	subelements.CreateButton("Create File", 1, func() {
-		subelements.CreateFiles("addedFile", 400)
+		subelements.CreateFiles("File", 400)
 	})
 	subelements.CreateButton("Create Object", 2, func() {
-		subelements.CreateObject("addedObject", 200)
+		subelements.CreateObject("Object", 200)
 	})
 }

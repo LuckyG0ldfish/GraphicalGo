@@ -8,21 +8,30 @@ import (
 
 	// "github.com/AllenDang/imgui-go"
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
-	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 )
 
-const OverviewXDist int = 8 
-const OverviewYDist int = 10 
+const OverviewXDist int = 10 
+const OverviewYDist int = 20 
+const OverviewOffset int = 5 
 
 func AddOverView(c *g.Canvas) {
 	Pro := context.GetPro()
-	for _, v := range Pro.Over.Pressables {
-		addOverViewElement(c, v)
+	xLeft := Pro.Over.XLeft
+	xRight := Pro.Over.XRight
+	for i, v := range Pro.Over.Pressables {
+		addOverViewElement(c, i, xLeft, xRight, v)
 	}
-	
 }
 
-func addOverViewElement(c *g.Canvas, pres elements.Pressable) {
+func addOverViewElement(c *g.Canvas, i, xleft, xright int, ove context.OverViewElement) {
 	pos := g.GetCursorScreenPos()
-	c.AddRectFilled(pos.Add(image.Pt(-20, -20)), pos.Add(image.Pt(0, 0)), color.White, 0, 5)
+	
+	frameXLeft := xleft + OverviewOffset + (ove.Level)*OverviewXDist
+	frameXRight := xright - OverviewOffset
+	frameYTop := OverviewOffset + i*OverviewYDist 
+	frameYBot := frameYTop + 18 
+
+	c.AddRectFilled(pos.Add(image.Pt(frameXLeft, frameYTop)), pos.Add(image.Pt(frameXRight, frameYBot)), color.White, 0, 5)
+	c.AddRect(pos.Add(image.Pt(frameXLeft, frameYTop)), pos.Add(image.Pt(frameXRight, frameYBot)), color.Black, 0, 0, 1)
+	c.AddText(pos.Add(image.Pt(frameXLeft+3, frameYTop+3)), color.Black, ove.Name)
 }

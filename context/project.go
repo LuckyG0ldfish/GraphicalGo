@@ -36,7 +36,12 @@ type Canvas struct {
 type OverView struct {
 	XLeft      int
 	XRight     int
-	Pressables []elements.Pressable
+	Pressables []OverViewElement
+}
+
+type OverViewElement struct {
+	Name 	string 
+	Level 	int 
 }
 
 type ObjectSelect struct {
@@ -48,15 +53,22 @@ type ObjectSelect struct {
 func NewProject(Name string, Width int, Height int) *Project {
 	pro.Name = Name
 	pro.Win = newWindow(Width, Height)
-	pro.Can.XLeft = 100
+	pro.Can.XLeft = 200
 	pro.Can.XRight = Width - 200
 	pro.DragInProgress = false
 	pro.nextID = 1
+	pro.Over.XLeft = 0 
+	pro.Over.XRight = pro.Can.XLeft
 
 	return &pro
 }
 
-
+func NewOverViewElement(name string, level int) {
+	var ov OverViewElement
+	ov.Level = level
+	ov.Name = name
+	pro.Over.Pressables = append(pro.Over.Pressables, ov)
+}
 
 func newWindow(Width int, Height int) Window {
 	var Win Window
@@ -70,7 +82,7 @@ func (obj *ObjectSelect) AdjustButtonPositions() {
 		v.SetXLeftObjectSelect(obj.XLeft)
 		v.SetXRightObjectSelect(obj.XRight)
 	}
-}
+} 
 
 func GetPro() *Project {
 	return &pro

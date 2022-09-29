@@ -1,6 +1,8 @@
 package context
 
 import (
+	"fmt"
+
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// g "github.com/AllenDang/giu"
 )
@@ -59,9 +61,11 @@ func NotifyOfSizeChange(d elements.Element) {
 		d.SetXRight(d.GetXLeft() + d.GetBaseWidth())
 		d.SetYBot(d.GetYTop() + d.GetBaseHeight())
 	}
-	
+
 	if d.GetParent() != nil {
 		NotifyOfSizeChange(d.GetParent())
+	} else {
+		updateOverviewElements()
 	}
 }
 
@@ -129,13 +133,13 @@ func findID(e []*elements.Element, el *elements.Element) (bool, int) {
 	return false, -1
 }
 
-func removeElement(e []*elements.Element, el *elements.Element) []*elements.Element {
+func RemoveElement(e []elements.Element, el elements.Element) []elements.Element {
 	// empty or last removing 
 	if len(e) < 2 {
-		return make([]*elements.Element, 0)
+		fmt.Println("empty")
+		return make([]elements.Element, 0)
 	}
-
-	ret := make([]*elements.Element, len(e)-1)
+	ret := make([]elements.Element, len(e)-1)
 	tempI := 0 
 	for _, v := range e {
 		if v != el {
@@ -143,11 +147,9 @@ func removeElement(e []*elements.Element, el *elements.Element) []*elements.Elem
 			tempI ++ 
 		}
 	}
-
+	fmt.Println("created")
 	return ret
 }
-
-
 
 func RecursiveLevelChange(startlevel int, el elements.Element) {
 	el.SetLevel(startlevel)
@@ -156,3 +158,19 @@ func RecursiveLevelChange(startlevel int, el elements.Element) {
 		RecursiveLevelChange(startlevel + 1 , v)
 	}
 }
+
+func updateOverviewElements() {
+	pro := GetPro()
+	pro.Over.Pressables = make([]OverViewElement, 0)
+	for _, v := range pro.Level1 {
+		recursiveAddToOverview(v)
+	}
+}
+
+func recursiveAddToOverview(e elements.Element) {
+	NewOverViewElement(e.GetName(), e.GetLevel())
+	for _, v := range e.GetSubelements() {
+		recursiveAddToOverview(v)
+	}
+}
+
