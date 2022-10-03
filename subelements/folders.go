@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"strconv"
+	// "strconv"
 
 	g "github.com/AllenDang/giu"
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
@@ -72,13 +72,13 @@ func (fol *Folder) Draw(c *g.Canvas) {
 	max := fol.GetXRight()
 	may := fol.GetYBot()
 
-	name := strconv.Itoa(fol.GetID()) + " " + strconv.Itoa(fol.GetLevel())
+	// name := strconv.Itoa(fol.GetID()) + " " + strconv.Itoa(fol.GetLevel())
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.White, 0, 5)
 	c.AddRect(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+110, miy+20)), color.Black, 0, 0, 1)
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), context.Gray, 0, 5)
 	c.AddRect(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.Black, 0, 0, 1)
 	// c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+107, miy+20)), color.Black, 1)
-	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, name)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, fol.GetName())
 
 	// expand
 	c.AddRectFilled(pos.Add(image.Pt(max-6, may-6)), pos.Add(image.Pt(max-1, may-1)), color.Black, 0, 5)

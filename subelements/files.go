@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"strconv"
+	// "strconv"
 
 	g "github.com/AllenDang/giu"
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
@@ -39,6 +39,8 @@ type File struct {
 }
 
 func (fil *File) Adding(e elements.Element) {
+	pro := context.GetPro()
+	fil.addingState = false
 	
 	switch e.GetType() {
 	case ObjectType: 
@@ -54,8 +56,8 @@ func (fil *File) Adding(e elements.Element) {
 		}
 	case VariableType: 
 	}
-	context.GetPro().Level1 = append(context.GetPro().Level1, e)
-	fil.addingState = false
+	pro.Level1 = context.RemoveElement(pro.Level1, e)
+	context.NotifyOfSizeChange(fil)
 	
 	fmt.Println("file adding done")
 }
@@ -65,6 +67,7 @@ func (fil *File) Removing(e elements.Element) {
 		obj, er := e.(*Object)
 		if er {
 			fil.objects = obj.removeObject(fil.objects)
+			fmt.Print("1234")
 		}
 	} // else if e.GetType() == FileType {
 	// 	file, er := e.(*File)
@@ -88,7 +91,7 @@ func (fil *File) Draw(c *g.Canvas) {
 	may := fil.GetYBot()
 
 	
-	name := fil.GetName() + " " + strconv.Itoa(fil.GetLevel())
+	// name := fil.GetName() + " " + strconv.Itoa(fil.GetLevel())
 	c.AddTriangleFilled(pos.Add(image.Pt(mix+90, miy+1)), pos.Add(image.Pt(mix+90, miy+20)), pos.Add(image.Pt(mix+109, miy+20)), color.White)
 	c.AddTriangle(pos.Add(image.Pt(mix+90, miy+1)), pos.Add(image.Pt(mix+90, miy+20)), pos.Add(image.Pt(mix+109, miy+20)), color.Black, 1)
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy)), pos.Add(image.Pt(mix+90, miy+20)), color.White, 0, 5)
@@ -96,7 +99,7 @@ func (fil *File) Draw(c *g.Canvas) {
 	c.AddRectFilled(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.White, 0, 5)
 	c.AddRect(pos.Add(image.Pt(mix, miy+20)), pos.Add(image.Pt(max, may)), color.Black, 0, 0, 1)
 	// c.AddLine(pos.Add(image.Pt(mix+3, miy+20)), pos.Add(image.Pt(mix+106, miy+20)), color.Black, 1)
-	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, name)
+	c.AddText(pos.Add(image.Pt(mix+3, miy+3)), color.Black, fil.GetName())
 
 	// expand
 	c.AddRectFilled(pos.Add(image.Pt(max-6, may-6)), pos.Add(image.Pt(max-1, may-1)), color.Black, 0, 5)

@@ -142,7 +142,7 @@ func RemoveElement(e []elements.Element, el elements.Element) []elements.Element
 	ret := make([]elements.Element, len(e)-1)
 	tempI := 0 
 	for _, v := range e {
-		if v != el {
+		if v.GetID() != el.GetID() {
 			ret[tempI] = v
 			tempI ++ 
 		}
