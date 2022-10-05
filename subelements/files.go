@@ -1,7 +1,6 @@
 package subelements
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	// "strconv"
@@ -50,16 +49,11 @@ func (fil *File) Adding(e elements.Element) {
 			obj.parent = fil
 			fil.objects = append(fil.objects, obj)
 			context.NotifyOfSizeChange(obj.parent)
-			fmt.Println("fileadding")
-		} else {
-			fmt.Println("failed to convert")
 		}
 	case VariableType: 
 	}
 	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fil)
-	
-	fmt.Println("file adding done")
 }
 
 func (fil *File) Removing(e elements.Element) {
@@ -67,7 +61,6 @@ func (fil *File) Removing(e elements.Element) {
 		obj, er := e.(*Object)
 		if er {
 			fil.objects = obj.removeObject(fil.objects)
-			fmt.Print("1234")
 		}
 	} // else if e.GetType() == FileType {
 	// 	file, er := e.(*File)

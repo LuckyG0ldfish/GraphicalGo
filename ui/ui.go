@@ -4,8 +4,9 @@ import (
 	"time"
 
 	g "github.com/AllenDang/giu"
-	"github.com/LuckyG0ldfish/GraphicalGo/subelements"
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
+	"github.com/LuckyG0ldfish/GraphicalGo/conversion"
+	"github.com/LuckyG0ldfish/GraphicalGo/subelements"
 	"github.com/LuckyG0ldfish/GraphicalGo/ui/inputs"
 	"github.com/LuckyG0ldfish/GraphicalGo/ui/outputs"
 )
@@ -61,5 +62,8 @@ func trialSetup() {
 	})
 	subelements.CreateButton("Create Object", 2, func() {
 		subelements.CreateObject("Object", 200)
+	})
+	subelements.CreateButton("Output", 3, func() {
+		conversion.StructsToForm()
 	})
 }

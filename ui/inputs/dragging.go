@@ -1,7 +1,6 @@
 package inputs
 
 import (
-	"fmt"
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
 	// "github.com/LuckyG0ldfish/GraphicalGo/elements/subelements"
@@ -23,18 +22,15 @@ func UpdateDragPos(D elements.Element) {
 		if test {
 			if !add.GetAddingState() {
 				add.SetAddingState(true)
-				fmt.Println("add1")
 			}
 		// } else {
 		// 	// reverseAllAddingStates()
-		// 	// fmt.Println("add2")
 		}
 		
 		if LeftReleased() {
 			// pro.DragInProgress = false
 			if test {
 				add.Adding(D)
-				fmt.Println("add3")
 			} 
 			pro.DragInProgress = false 
 			return
@@ -45,7 +41,6 @@ func UpdateDragPos(D elements.Element) {
 func updateRelPosRec(D elements.Element) {
 	working := updateRelativePos(D)
 	if !working {
-		fmt.Println("not working")
 		return
 	}
 	for _, v := range D.GetSubelements() {
@@ -61,10 +56,8 @@ func updateRelativePos(D elements.Element) (working bool) {
 	relX := posX - D.GetXLeft()
 	relY := posY - D.GetYTop()
 
-	// fmt.Println("relX: " + strconv.Itoa(relX) + " relY: " + strconv.Itoa(relY))
 	D.SetRelativeX(relX)
 	D.SetRelativeY(relY)
-	// fmt.Println("rel pos updated")
 	return true
 }
 
@@ -79,7 +72,6 @@ func updatePosRec(D elements.Element) {
 
 	D.SetXLeft(curX - D.GetRelativeX())
 	D.SetYTop(curY - D.GetRelativeY())
-	// fmt.Println("")
 	D.SetXRight(D.GetXLeft() + (max - mix))
 	D.SetYBot(D.GetYTop() + (may - miy))
 
@@ -99,7 +91,6 @@ func updatePos(D elements.Element) {
 
 	D.SetXLeft(curX - D.GetRelativeX())
 	D.SetYTop(curY - D.GetRelativeY())
-	// fmt.Println("")
 	D.SetXRight(D.GetXLeft() + (max - mix))
 	D.SetYBot(D.GetYTop() + (may - miy))
 }

@@ -1,7 +1,6 @@
 package context
 
 import (
-	"fmt"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/elements"
 	// g "github.com/AllenDang/giu"
@@ -136,7 +135,6 @@ func findID(e []*elements.Element, el *elements.Element) (bool, int) {
 func RemoveElement(e []elements.Element, el elements.Element) []elements.Element {
 	// empty or last removing 
 	if len(e) < 2 {
-		fmt.Println("empty")
 		return make([]elements.Element, 0)
 	}
 	ret := make([]elements.Element, len(e)-1)
@@ -147,7 +145,6 @@ func RemoveElement(e []elements.Element, el elements.Element) []elements.Element
 			tempI ++ 
 		}
 	}
-	fmt.Println("created")
 	return ret
 }
 

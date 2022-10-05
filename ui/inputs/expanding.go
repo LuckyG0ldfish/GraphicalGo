@@ -19,7 +19,6 @@ func UpdateExpanding(E elements.Expandable) {
 func updateExpandableSize(E elements.Expandable) {
 	curX, curY := CursorPos()
 
-	// fmt.Println("")
 	E.SetXRight(curX + E.GetRelativeX())
 	E.SetYBot(curY + E.GetRelativeY())
 }
@@ -32,10 +31,8 @@ func getRelativePosExp(E elements.Expandable) (working bool) {
 	relX := E.GetXRight() - posX 
 	relY := E.GetYBot() - posY
 
-	// fmt.Println("relX: " + strconv.Itoa(relX) + " relY: " + strconv.Itoa(relY))
 	E.SetRelativeX(relX)
 	E.SetRelativeY(relY)
-	// fmt.Println("rel pos updated")
 	return true
 }
 

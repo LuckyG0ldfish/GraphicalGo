@@ -1,7 +1,6 @@
 package subelements
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	// "strconv"
@@ -109,7 +108,6 @@ func (fol *Folder) GetSubelements() []elements.Element {
 func (fol *Folder) Adding(e elements.Element) {
 	pro := context.GetPro()
 	fol.addingState = false
-	fmt.Println("folder adding done")
 
 	switch e.GetType() {
 	case FolderType: 
