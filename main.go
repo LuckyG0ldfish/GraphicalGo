@@ -5,7 +5,7 @@ import (
 )
 
 
-// This is an example from AllenDang/giu
+
 func main() {
 	
 	ui.WindowManager()

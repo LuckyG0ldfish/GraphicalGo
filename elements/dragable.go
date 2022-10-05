@@ -1,5 +1,9 @@
 package elements
 
+import (
+	g "github.com/AllenDang/giu"
+)
+
 // "image"
 // "image/color"
 
@@ -7,9 +11,22 @@ package elements
 
 // "github.com/AllenDang/imgui-go"
 
-type Dragable interface {
-	GetID() int
+type Element interface {
+	GetID() int // 1 = Folder, 2 = File, 3 = Object
+	GetType() int
 	GetName() string
+	GetLevel() int
+	SetLevel(int)
+
+	GetBaseWidth() int 
+	GetBaseHeight() int 
+
+	Draw(*g.Canvas)
+	GetSubelements() []Element
+	GetParent() Element
+	SetParent(Element)
+
+	Removing(Element)
 
 	GetXLeft() int
 	GetYTop() int
@@ -21,8 +38,8 @@ type Dragable interface {
 	SetXRight(int)
 	SetYBot(int)
 
-	GetRelativeX() int 
+	GetRelativeX() int
 	GetRelativeY() int
-	SetRelativeX(int) 
-	SetRelativeY(int) 
+	SetRelativeX(int)
+	SetRelativeY(int)
 }
