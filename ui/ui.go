@@ -66,4 +66,7 @@ func trialSetup() {
 	subelements.CreateButton("Output", 3, func() {
 		conversion.StructsToForm()
 	})
+	subelements.CreateButton("Output", 4, func() {
+		conversion.FormToStruct()
+	})
 }

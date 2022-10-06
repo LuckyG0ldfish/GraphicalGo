@@ -42,7 +42,7 @@ func elementToString(e elements.Element) string {
 	output = output + "I " + strconv.Itoa(e.GetID()) + " \n"
 	output = output + "T " + strconv.Itoa(e.GetType()) + " \n"
 	output = output + "N " + e.GetName() + " \n"
-	output = output + "CX " + strconv.Itoa(e.GetXLeft()) + " \n"
-	output = output + "CY " + strconv.Itoa(e.GetYTop()) + " \n"
+	output = output + "X " + strconv.Itoa(e.GetXLeft()) + " \n"
+	output = output + "Y " + strconv.Itoa(e.GetYTop()) + " \n"
 	return output
 }
