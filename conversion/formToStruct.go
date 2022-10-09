@@ -6,9 +6,11 @@ import (
 	"strconv"
 
 	"github.com/LuckyG0ldfish/GraphicalGo/context"
+	"github.com/LuckyG0ldfish/GraphicalGo/elements"
+	"github.com/LuckyG0ldfish/GraphicalGo/subelements"
 )
 
-type element struct {
+type structElement struct {
 	L int 
 	I int 
 	T int 
@@ -17,90 +19,178 @@ type element struct {
 	Y int
 }
 
-func FormToStruct() (bool, context.Project) {
-	var pro context.Project
-
+func FormToStruct() bool {
+	pro := context.GetPro()
+	if pro.SaveLoaded {
+		return false 
+	}
+	
 	s, e := os.ReadFile("GraphicalGo.txt")
 	if e != nil {
-		fmt.Println("E1")
-		return false, pro 
+		fmt.Println("File Corrupted / Not existing")
+		return false
 	}
 	if len(s) == 0 {
-		fmt.Println("E2")
-		return false, pro 
+		fmt.Println("Empty Save")
+		return false
 	}
-	fmt.Println("parsing")
-	// ele := parseArguments(s, true)
-	return true, pro
+	check, id := addElementsToProject(s)
+	if check {
+		pro.SetNextID(id)
+		pro.SaveLoaded = true 
+		return true 
+	}
+	return false 
+}
+
+func addElementsToProject(s []byte) (bool, int) {
+	check, eles := parseArguments(s, true)
+	if !check {
+		return false, 0
+	}
+	tempID := 0 
+	var prev elements.Element = nil 
+	for _, v := range eles {	
+		if v.I > tempID {
+			tempID = v.I
+		}	
+		if v.L != 1 && prev != nil {
+			if prev.GetLevel() < v.L{
+				ele := elementToSubelement(v)
+				prev.Adding(ele)
+				prev = ele 
+			} else {
+				ele := elementToSubelement(v)
+				prev.GetParent().Adding(ele)
+				prev = ele 
+			}
+		} else {
+			ele := elementToSubelement(v)
+			prev = ele 
+		}
+	}
+	return true, tempID + 1
+}
+
+func elementToSubelement(e structElement) elements.Element{
+	var ele elements.Element
+	switch e.T {
+	case subelements.FolderType:
+		ele = subelements.CreateAndInitFolders(e.N, e.X, e.Y, e.I, e.L)
+	case subelements.FileType: 
+		ele = subelements.CreateAndInitFiles(e.N, e.X, e.Y, e.I, e.L)
+	case subelements.ObjectType:
+		ele = subelements.CreateAndInitObject(e.N, e.X, e.Y, e.I, e.L)
+	// case subelements.VariableType: 	TODO
+	}
+	return ele
 }
 
 // 10 = new line 
 // 32 = space 
-func parseArguments(bytes []byte, integer bool) []element {
+func parseArguments(bytes []byte, integer bool) (bool, []structElement) {
 	temp := make([]byte, 0)
 	last := false  
-	var ele element
-	eles := make([]element, 0)
+	var ele structElement
+	eles := make([]structElement, 0)
 
 	for _, b := range bytes {
 		if b == 32 {
 		} else if last && b == 10 {
-			eles = append(eles, ele)
 			last = false
+			if checkStructEle(ele) {
+				eles = append(eles, ele)
+			} else {
+				fmt.Println("unvollständig")
+			}
+			ele = createStructureElement()
 		} else if b == 10 {
-			parseArgument(temp, &ele)
+			if !parseArgument(temp, &ele) {
+				return false, eles 
+			}
 			temp = make([]byte, 0)
 			last = true
 		} else {
 			temp = append(temp, b)
+			last = false 
 		}
 	}
-
-	return eles 
+	eles = append(eles, ele)
+	return true, eles 
 }
 
-func parseArgument(bytes []byte, e *element) {
+func createStructureElement() structElement {
+	var ele structElement
+	ele.I = 0 
+	ele.L = 0 
+	ele.N = "" 
+	ele.T = 0
+	ele.X = 0
+	ele.Y = 0  
+	return ele 
+}
+
+func checkStructEle(e structElement) bool {
+	if e.I == 0 || e.L == 0 || e.N == "" || e.T == 0 || e.X == 0 || e.Y == 0 {
+		return false 
+	}
+	return true 
+}
+
+func parseArgument(bytes []byte, e *structElement) bool {
 	if len(bytes) == 0  {
-		return 
+		return true  
 	}
 
 	flag := string(bytes[0])
+	fmt.Println(flag)
 	value := ""
 
 	for i, b := range bytes {
-		
-		if i > 1 {
+		if i > 0 {
 			value = value + string(b)
 		} 
 	}
 
+	fmt.Println("|" + value + "|")
 	switch flag {
 	case "L":
 		i, er := strconv.Atoi(value)
-		if er != nil {
+		if er == nil {
 			e.L = i 
+		} else {
+			return false 
 		}
 	case "I":
 		i, er := strconv.Atoi(value)
-		if er != nil {
+		if er == nil {
 			e.I = i 
+		} else {
+			return false 
 		}
 	case "T":
 		i, er := strconv.Atoi(value)
-		if er != nil {
+		if er == nil {
 			e.T = i 
+		} else {
+			return false 
 		}
 	case "N":
 		e.N = value
 	case "X":
 		i, er := strconv.Atoi(value)
-		if er != nil {
+		if er == nil {
 			e.X = i 
+		} else {
+			return false 
 		}
 	case "Y":
 		i, er := strconv.Atoi(value)
-		if er != nil {
+		if er == nil {
 			e.Y = i 
+		} else {
+			return false 
 		}
 	}
+	return true 
 }

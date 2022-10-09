@@ -64,7 +64,7 @@ func NotifyOfSizeChange(d elements.Element) {
 	if d.GetParent() != nil {
 		NotifyOfSizeChange(d.GetParent())
 	} else {
-		updateOverviewElements()
+		// updateOverviewElements()
 	}
 }
 
@@ -141,6 +141,9 @@ func RemoveElement(e []elements.Element, el elements.Element) []elements.Element
 	tempI := 0 
 	for _, v := range e {
 		if v.GetID() != el.GetID() {
+			if tempI == len(ret) {
+				return e
+			}
 			ret[tempI] = v
 			tempI ++ 
 		}

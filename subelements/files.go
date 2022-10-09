@@ -111,17 +111,25 @@ func (fil *File) GetSubelements() []elements.Element {
 }
 
 func CreateFiles(name string, x int) *File {
+	level := 1
+	id := context.GetNextID()
+	yTop := 100
+
+	return CreateAndInitFiles(name, x, yTop, id, level)
+}
+
+func CreateAndInitFiles(name string, x, y, id, lvl int) *File {
 	pro := context.GetPro()
 	var fil File
 	fil.name = name
-	fil.level = 1
-	fil.id = context.GetNextID()
+	fil.level = lvl
+	fil.id = id
 
 	fil.xLeft = x
-	fil.yTop = 100
+	fil.yTop = y
 
 	fil.xRight = x + FileBaseWidth
-	fil.yBot = fil.yTop + FileBaseHeight
+	fil.yBot = y + FileBaseHeight
 
 	fil.xRelative = 0
 	fil.yRelative = 0
@@ -131,7 +139,9 @@ func CreateFiles(name string, x int) *File {
 	pro.Can.Dragables = append(pro.Can.Dragables, &fil)
 	pro.Can.Expandables = append(pro.Can.Expandables, &fil)
 	pro.Can.Add = append(pro.Can.Add, &fil)
-	pro.Level1 = append(pro.Level1, &fil)
+	if lvl == 1 {
+		pro.Level1 = append(pro.Level1, &fil)
+	}
 	// pro.Files = append(pro.Files, &fil)
 	return &fil
 }

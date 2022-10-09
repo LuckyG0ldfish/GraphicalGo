@@ -18,7 +18,15 @@ type Handler interface {
 func WindowManager() {
 	Project := context.NewProject("GraphicalGo", 1500, 800)
 	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
-	trialSetup() // testing
+	
+	// Loading Save file 
+	if !conversion.FormToStruct(){
+		trialSetup() // testing
+	} else {
+		Project.SaveLoaded = true 
+	}
+	basicButtons()
+	
 	go inputs.HandleGeneralMousePosition()
 	go updateFrameSize(w)
 	w.Run(outputs.DrawUI)
@@ -42,18 +50,7 @@ func updateFrameSize(w *g.MasterWindow) {
 	}
 }
 
-// only for testing
-func trialSetup() {
-	// pro.Can.Dragables = make([]elements.Element, 0)
-	// pro.Can.Expandables = make([]elements.Expandable, 0)
-	// pro.Obj.Pressables = make([]elements.Pressable, 0)
-
-	subelements.CreateObject("Object", 200)
-	// CreateObject("Test2 :Object", 300)
-	// CreateObject("Test3 :Object", 500)
-	subelements.CreateFolders("Package", 700)
-	subelements.CreateFiles("File", 400)
-
+func basicButtons() {
 	subelements.CreateButton("Create Package", 0, func() {
 		subelements.CreateFolders("Package", 700)
 	})
@@ -69,4 +66,16 @@ func trialSetup() {
 	subelements.CreateButton("Output", 4, func() {
 		conversion.FormToStruct()
 	})
+}
+// only for testing
+func trialSetup() {
+	// pro.Can.Dragables = make([]elements.Element, 0)
+	// pro.Can.Expandables = make([]elements.Expandable, 0)
+	// pro.Obj.Pressables = make([]elements.Pressable, 0)
+
+	subelements.CreateObject("Object", 200)
+	// CreateObject("Test2 :Object", 300)
+	// CreateObject("Test3 :Object", 500)
+	subelements.CreateFolders("Package", 700)
+	subelements.CreateFiles("File", 400)
 }

@@ -32,24 +32,34 @@ type Object struct {
 }
 
 func CreateObject(name string, x int) *Object {
+	level := 1
+	id := context.GetNextID()
+	yTop := 100
+
+	return CreateAndInitObject(name, x, yTop, id, level)
+}
+
+func CreateAndInitObject(name string, x, y, id, lvl int) *Object {
 	pro := context.GetPro()
 	var object Object
 
 	object.Name = name
-	object.level = 1
-	object.id = context.GetNextID()
+	object.level = lvl
+	object.id = id
 
 	object.xLeft = x
-	object.yTop = 100
+	object.yTop = y
 
 	object.xRight = x + ObjectBaseWidth
-	object.yBot = object.yTop + ObjectBaseHeight
+	object.yBot = y + ObjectBaseHeight
 
 	object.xRelative = 0
 	object.yRelative = 0
 
 	pro.Can.Dragables = append(pro.Can.Dragables, &object)
-	pro.Level1 = append(pro.Level1, &object)
+	if lvl == 1 {
+		pro.Level1 = append(pro.Level1, &object)
+	}
 	return &object
 }
 
@@ -77,7 +87,7 @@ func (ob *Object) GetSubelements() []elements.Element {
 	return r
 }
 
-
+func (ob *Object) Adding(e elements.Element) {}
 
 func (ob *Object) Removing(e elements.Element) {
 	if e.GetType() == VariableType {
@@ -85,25 +95,25 @@ func (ob *Object) Removing(e elements.Element) {
 		// if er {
 		// 	removeFolder(ob.folders, folder)
 		// }
-	} 
-	context.RecursiveLevelChange(1, e) // base level 
+	}
+	context.RecursiveLevelChange(1, e) // base level
 	e.SetParent(nil)
 	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(ob)
 }
 
 func (ob *Object) removeObject(e []*Object) []*Object {
-	// empty or last removing 
+	// empty or last removing
 	if len(e) < 2 {
 		return make([]*Object, 0)
 	}
 
 	ret := make([]*Object, len(e)-1)
-	tempI := 0 
+	tempI := 0
 	for _, v := range e {
 		if v != ob {
 			ret[tempI] = v
-			tempI ++ 
+			tempI++
 		}
 	}
 
@@ -183,11 +193,11 @@ func (ob *Object) GetParent() elements.Element {
 	return ob.parent
 }
 
-func (ob *Object) SetParent(par elements.Element)  {
+func (ob *Object) SetParent(par elements.Element) {
 	ob.parent = par
 }
 
-func (ob *Object) SetAsParent(child elements.Element)  {
+func (ob *Object) SetAsParent(child elements.Element) {
 	child.SetParent(ob)
 }
 

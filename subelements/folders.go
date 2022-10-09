@@ -38,18 +38,26 @@ type Folder struct {
 }
 
 func CreateFolders(name string, x int) *Folder {
+	level := 1
+	id := context.GetNextID()
+	yTop := 100
+
+	return CreateAndInitFolders(name, x, yTop, id, level)
+}
+
+func CreateAndInitFolders(name string, x, y, id, lvl int) *Folder {
 	pro := context.GetPro()
 	var folder Folder
 	folder.name = name
-	folder.level = 1
+	folder.level = lvl
 	folder.updatedSize = false
-	folder.id = context.GetNextID()
+	folder.id = id
 
 	folder.xLeft = x
-	folder.yTop = 100
+	folder.yTop = y
 
 	folder.xRight = x + FolderBaseWidth
-	folder.yBot = folder.yTop + FolderBaseHeight
+	folder.yBot = y + FolderBaseHeight
 
 	folder.xRelative = 0
 	folder.yRelative = 0
@@ -58,7 +66,9 @@ func CreateFolders(name string, x int) *Folder {
 	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
 	pro.Can.Add = append(pro.Can.Add, &folder)
 	// pro.Folders = append(pro.Folders, &folder)
-	pro.Level1 = append(pro.Level1, &folder)
+	if lvl == 1 {
+		pro.Level1 = append(pro.Level1, &folder)
+	}
 	return &folder
 }
 
