@@ -98,3 +98,10 @@ func GetNextID() int {
 func (pro *Project) SetNextID(i int) {
 	pro.nextID = i 
 }
+
+func ClearProject() {
+	pro := GetPro()
+	pro.Can.Dragables = make([]elements.Element, 0)
+	pro.Level1 = make([]elements.Element, 0)
+	pro.Over.Pressables = make([]OverViewElement, 0)
+}

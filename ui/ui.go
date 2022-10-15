@@ -60,11 +60,14 @@ func basicButtons() {
 	subelements.CreateButton("Create Object", 2, func() {
 		subelements.CreateObject("Object", 200)
 	})
-	subelements.CreateButton("Output", 3, func() {
+	subelements.CreateButton("Save", 3, func() {
 		conversion.StructsToForm()
 	})
-	subelements.CreateButton("Output", 4, func() {
+	subelements.CreateButton("Load", 4, func() {
 		conversion.FormToStruct()
+	})
+	subelements.CreateButton("Clear", 5, func() {
+		context.ClearProject()
 	})
 }
 // only for testing
