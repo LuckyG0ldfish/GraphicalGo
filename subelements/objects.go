@@ -60,6 +60,7 @@ func CreateAndInitObject(name string, x, y, id, lvl int) *Object {
 	if lvl == 1 {
 		pro.Level1 = append(pro.Level1, &object)
 	}
+	context.UpdateOverviewElements()
 	return &object
 }
 

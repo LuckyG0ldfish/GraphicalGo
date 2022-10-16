@@ -17,6 +17,7 @@ type Handler interface {
 
 func WindowManager() {
 	Project := context.NewProject("GraphicalGo", 1500, 800)
+	context.SetPro(*Project)
 	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
 	
 	// Loading Save file 

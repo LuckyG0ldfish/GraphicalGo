@@ -1,8 +1,10 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+
 	// "strconv"
 
 	g "github.com/AllenDang/giu"
@@ -54,6 +56,7 @@ func (fil *File) Adding(e elements.Element) {
 	}
 	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fil)
+	context.UpdateOverviewElements()
 }
 
 func (fil *File) Removing(e elements.Element) {
@@ -72,6 +75,7 @@ func (fil *File) Removing(e elements.Element) {
 	e.SetParent(nil)
 	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fil)
+	context.UpdateOverviewElements()
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -141,8 +145,10 @@ func CreateAndInitFiles(name string, x, y, id, lvl int) *File {
 	pro.Can.Add = append(pro.Can.Add, &fil)
 	if lvl == 1 {
 		pro.Level1 = append(pro.Level1, &fil)
+		fmt.Print("added to L1")
 	}
 	// pro.Files = append(pro.Files, &fil)
+	context.UpdateOverviewElements()
 	return &fil
 }
 

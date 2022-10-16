@@ -49,31 +49,37 @@ func addElementsToProject(s []byte) (bool, int) {
 		return false, 0
 	}
 	tempID := 0 
-	var prev elements.Element = nil 
+	var prev elements.Element
 	for _, v := range eles {	
 		if v.I > tempID {
 			tempID = v.I
 		}	
+		ele := elementToSubelement(v)
 		if v.L != 1 && prev != nil {
 			if prev.GetLevel() < v.L{
-				ele := elementToSubelement(v)
 				prev.Adding(ele)
-				prev = ele 
+			} else if prev.GetLevel() > v.L {
+				temp := prev.GetParent()
+				for temp.GetLevel() >= v.L {
+					temp = temp.GetParent()
+					if temp == nil {
+						return false, 0
+					}	
+				}
+				temp.Adding(ele)
 			} else {
-				ele := elementToSubelement(v)
 				prev.GetParent().Adding(ele)
-				prev = ele 
 			}
-		} else {
-			ele := elementToSubelement(v)
-			prev = ele 
 		}
+		prev = ele
 	}
 	return true, tempID + 1
 }
 
 func elementToSubelement(e structElement) elements.Element{
 	var ele elements.Element
+
+	
 	switch e.T {
 	case subelements.FolderType:
 		ele = subelements.CreateAndInitFolders(e.N, e.X, e.Y, e.I, e.L)
@@ -83,6 +89,7 @@ func elementToSubelement(e structElement) elements.Element{
 		ele = subelements.CreateAndInitObject(e.N, e.X, e.Y, e.I, e.L)
 	// case subelements.VariableType: 	TODO
 	}
+	
 	return ele
 }
 
@@ -143,7 +150,6 @@ func parseArgument(bytes []byte, e *structElement) bool {
 	}
 
 	flag := string(bytes[0])
-	fmt.Println(flag)
 	value := ""
 
 	for i, b := range bytes {
@@ -151,8 +157,6 @@ func parseArgument(bytes []byte, e *structElement) bool {
 			value = value + string(b)
 		} 
 	}
-
-	fmt.Println("|" + value + "|")
 	switch flag {
 	case "L":
 		i, er := strconv.Atoi(value)

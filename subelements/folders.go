@@ -1,8 +1,10 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+
 	// "strconv"
 
 	g "github.com/AllenDang/giu"
@@ -68,7 +70,9 @@ func CreateAndInitFolders(name string, x, y, id, lvl int) *Folder {
 	// pro.Folders = append(pro.Folders, &folder)
 	if lvl == 1 {
 		pro.Level1 = append(pro.Level1, &folder)
+		fmt.Print("added to L1")
 	}
+	context.UpdateOverviewElements()
 	return &folder
 }
 
@@ -135,8 +139,9 @@ func (fol *Folder) Adding(e elements.Element) {
 			fol.files = append(fol.files, fil)
 		}
 	}
-	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fol)
+	pro.Level1 = context.RemoveElement(pro.Level1, e)
+	context.UpdateOverviewElements()
 }
 
 func (fol *Folder) Removing(e elements.Element) {
@@ -156,6 +161,7 @@ func (fol *Folder) Removing(e elements.Element) {
 	e.SetParent(nil)
 	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fol)
+	context.UpdateOverviewElements()
 }
 
 func (fol *Folder) removeFolder(e []*Folder) []*Folder {
