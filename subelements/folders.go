@@ -1,8 +1,10 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+
 	// "strconv"
 
 	g "github.com/AllenDang/giu"
@@ -38,18 +40,26 @@ type Folder struct {
 }
 
 func CreateFolders(name string, x int) *Folder {
+	level := 1
+	id := context.GetNextID()
+	yTop := 100
+
+	return CreateAndInitFolders(name, x, yTop, id, level)
+}
+
+func CreateAndInitFolders(name string, x, y, id, lvl int) *Folder {
 	pro := context.GetPro()
 	var folder Folder
 	folder.name = name
-	folder.level = 1
+	folder.level = lvl
 	folder.updatedSize = false
-	folder.id = context.GetNextID()
+	folder.id = id
 
 	folder.xLeft = x
-	folder.yTop = 100
+	folder.yTop = y
 
 	folder.xRight = x + FolderBaseWidth
-	folder.yBot = folder.yTop + FolderBaseHeight
+	folder.yBot = y + FolderBaseHeight
 
 	folder.xRelative = 0
 	folder.yRelative = 0
@@ -58,7 +68,11 @@ func CreateFolders(name string, x int) *Folder {
 	pro.Can.Expandables = append(pro.Can.Expandables, &folder)
 	pro.Can.Add = append(pro.Can.Add, &folder)
 	// pro.Folders = append(pro.Folders, &folder)
-	pro.Level1 = append(pro.Level1, &folder)
+	if lvl == 1 {
+		pro.Level1 = append(pro.Level1, &folder)
+		fmt.Print("added to L1")
+	}
+	context.UpdateOverviewElements()
 	return &folder
 }
 
@@ -125,8 +139,9 @@ func (fol *Folder) Adding(e elements.Element) {
 			fol.files = append(fol.files, fil)
 		}
 	}
-	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fol)
+	pro.Level1 = context.RemoveElement(pro.Level1, e)
+	context.UpdateOverviewElements()
 }
 
 func (fol *Folder) Removing(e elements.Element) {
@@ -146,6 +161,7 @@ func (fol *Folder) Removing(e elements.Element) {
 	e.SetParent(nil)
 	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fol)
+	context.UpdateOverviewElements()
 }
 
 func (fol *Folder) removeFolder(e []*Folder) []*Folder {

@@ -16,6 +16,7 @@ type Project struct {
 	Over    OverView
 	Obj     ObjectSelect
 	Level1 	[]elements.Element
+	SaveLoaded bool 
 }
 
 type Window struct {
@@ -59,7 +60,7 @@ func NewProject(Name string, Width int, Height int) *Project {
 	pro.nextID = 1
 	pro.Over.XLeft = 0 
 	pro.Over.XRight = pro.Can.XLeft
-
+	pro.SaveLoaded = false 
 	return &pro
 }
 
@@ -88,8 +89,29 @@ func GetPro() *Project {
 	return &pro
 }
 
+func SetPro(p Project) {
+	pro = p 
+}
+
 func GetNextID() int {
 	i := pro.nextID
 	pro.nextID++
 	return i 
+}
+
+func (pro *Project) SetNextID(i int) {
+	pro.nextID = i 
+}
+
+func ClearProject() {
+	pro := GetPro()
+	pro.Can.Dragables = make([]elements.Element, 0)
+	pro.Can.Expandables = make([]elements.Expandable, 0)
+	pro.Can.Draw = make([]elements.Element, 0)
+	pro.Can.Add = make([]elements.Addable, 0)
+	pro.Level1 = make([]elements.Element, 0)
+	pro.Over.Pressables = make([]OverViewElement, 0)
+	pro.DragInProgress = false 
+	pro.Can.Dragged = nil 
+	pro.SaveLoaded = false 
 }

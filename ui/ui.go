@@ -17,8 +17,17 @@ type Handler interface {
 
 func WindowManager() {
 	Project := context.NewProject("GraphicalGo", 1500, 800)
+	context.SetPro(*Project)
 	w := g.NewMasterWindow(Project.Name, Project.Win.XWidth, Project.Win.YHeight, 0)
-	trialSetup() // testing
+	
+	// Loading Save file 
+	if !conversion.FormToStruct(){
+		trialSetup() // testing
+	} else {
+		Project.SaveLoaded = true 
+	}
+	basicButtons()
+	
 	go inputs.HandleGeneralMousePosition()
 	go updateFrameSize(w)
 	w.Run(outputs.DrawUI)
@@ -42,6 +51,26 @@ func updateFrameSize(w *g.MasterWindow) {
 	}
 }
 
+func basicButtons() {
+	subelements.CreateButton("Create Package", 0, func() {
+		subelements.CreateFolders("Package", 700)
+	})
+	subelements.CreateButton("Create File", 1, func() {
+		subelements.CreateFiles("File", 400)
+	})
+	subelements.CreateButton("Create Object", 2, func() {
+		subelements.CreateObject("Object", 200)
+	})
+	subelements.CreateButton("Save", 3, func() {
+		conversion.StructsToForm()
+	})
+	subelements.CreateButton("Load", 4, func() {
+		conversion.FormToStruct()
+	})
+	subelements.CreateButton("Clear", 5, func() {
+		context.ClearProject()
+	})
+}
 // only for testing
 func trialSetup() {
 	// pro.Can.Dragables = make([]elements.Element, 0)
@@ -53,17 +82,4 @@ func trialSetup() {
 	// CreateObject("Test3 :Object", 500)
 	subelements.CreateFolders("Package", 700)
 	subelements.CreateFiles("File", 400)
-
-	subelements.CreateButton("Create Package", 0, func() {
-		subelements.CreateFolders("Package", 700)
-	})
-	subelements.CreateButton("Create File", 1, func() {
-		subelements.CreateFiles("File", 400)
-	})
-	subelements.CreateButton("Create Object", 2, func() {
-		subelements.CreateObject("Object", 200)
-	})
-	subelements.CreateButton("Output", 3, func() {
-		conversion.StructsToForm()
-	})
 }

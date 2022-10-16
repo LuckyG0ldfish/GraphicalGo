@@ -63,9 +63,7 @@ func NotifyOfSizeChange(d elements.Element) {
 
 	if d.GetParent() != nil {
 		NotifyOfSizeChange(d.GetParent())
-	} else {
-		updateOverviewElements()
-	}
+	} 	
 }
 
 func adjustInternalPositioning(d elements.Element) {
@@ -133,14 +131,13 @@ func findID(e []*elements.Element, el *elements.Element) (bool, int) {
 }
 
 func RemoveElement(e []elements.Element, el elements.Element) []elements.Element {
-	// empty or last removing 
-	if len(e) < 2 {
-		return make([]elements.Element, 0)
-	}
 	ret := make([]elements.Element, len(e)-1)
 	tempI := 0 
 	for _, v := range e {
 		if v.GetID() != el.GetID() {
+			if tempI == len(ret) {
+				return e
+			}
 			ret[tempI] = v
 			tempI ++ 
 		}
@@ -156,7 +153,7 @@ func RecursiveLevelChange(startlevel int, el elements.Element) {
 	}
 }
 
-func updateOverviewElements() {
+func UpdateOverviewElements() {
 	pro := GetPro()
 	pro.Over.Pressables = make([]OverViewElement, 0)
 	for _, v := range pro.Level1 {

@@ -27,7 +27,8 @@ type Element interface {
 	SetParent(Element)
 
 	Removing(Element)
-
+	Adding(Element)
+	
 	GetXLeft() int
 	GetYTop() int
 	SetXLeft(int)

@@ -1,8 +1,10 @@
 package subelements
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+
 	// "strconv"
 
 	g "github.com/AllenDang/giu"
@@ -54,6 +56,7 @@ func (fil *File) Adding(e elements.Element) {
 	}
 	pro.Level1 = context.RemoveElement(pro.Level1, e)
 	context.NotifyOfSizeChange(fil)
+	context.UpdateOverviewElements()
 }
 
 func (fil *File) Removing(e elements.Element) {
@@ -72,6 +75,7 @@ func (fil *File) Removing(e elements.Element) {
 	e.SetParent(nil)
 	context.GetPro().Level1 = append(context.GetPro().Level1, e)
 	context.NotifyOfSizeChange(fil)
+	context.UpdateOverviewElements()
 }
 
 func (fil *File) Draw(c *g.Canvas) {
@@ -111,17 +115,25 @@ func (fil *File) GetSubelements() []elements.Element {
 }
 
 func CreateFiles(name string, x int) *File {
+	level := 1
+	id := context.GetNextID()
+	yTop := 100
+
+	return CreateAndInitFiles(name, x, yTop, id, level)
+}
+
+func CreateAndInitFiles(name string, x, y, id, lvl int) *File {
 	pro := context.GetPro()
 	var fil File
 	fil.name = name
-	fil.level = 1
-	fil.id = context.GetNextID()
+	fil.level = lvl
+	fil.id = id
 
 	fil.xLeft = x
-	fil.yTop = 100
+	fil.yTop = y
 
 	fil.xRight = x + FileBaseWidth
-	fil.yBot = fil.yTop + FileBaseHeight
+	fil.yBot = y + FileBaseHeight
 
 	fil.xRelative = 0
 	fil.yRelative = 0
@@ -131,8 +143,12 @@ func CreateFiles(name string, x int) *File {
 	pro.Can.Dragables = append(pro.Can.Dragables, &fil)
 	pro.Can.Expandables = append(pro.Can.Expandables, &fil)
 	pro.Can.Add = append(pro.Can.Add, &fil)
-	pro.Level1 = append(pro.Level1, &fil)
+	if lvl == 1 {
+		pro.Level1 = append(pro.Level1, &fil)
+		fmt.Print("added to L1")
+	}
 	// pro.Files = append(pro.Files, &fil)
+	context.UpdateOverviewElements()
 	return &fil
 }
 
